@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Entities\" />
+    <Folder Include="Models\Enums\" />
+    <Folder Include="Models\Common\" />
+    <Folder Include="Models\Attributes\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Models\Filters\" />
+    <Folder Include="Models\Options\" />
+    <Folder Include="Models\Paginations\" />
+  </ItemGroup>
+
+</Project>
