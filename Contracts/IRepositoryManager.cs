@@ -9,7 +9,9 @@ namespace Contracts
 {
     public interface IRepositoryManager
     {
-        IUserRepository User {  get; }
+        IBuyerRepository Buyer {  get; }
+        IBookRepository Book { get; }
+        ISellerRepository Seller { get; }
         Task SaveAsync();
     }
 }

@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Entities\Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BuyerService\" />
+  </ItemGroup>
+
 </Project>

@@ -1,28 +1,26 @@
-﻿using Entities.Model;
+﻿using Entities.Models;
+using Entities.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Entities.Configurations
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public class UserConfiguration : IEntityTypeConfiguration<Buyer>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<Buyer> builder)
         {
             builder.HasData(
-                new List<User>
-                { 
-                    new User { Id = 1, 
-                        FirstName="Admin" , 
-                        Login= "Admin",
+                new List<Buyer>
+                {
+                    new Buyer { Id = Guid.NewGuid(),
+                        FirstName="Admin" ,
+                        PhoneNumber= "12345678",
                         Password="Admin",
                         LastName = "Admin",
-                        Token = "sdsdsd",
-                         Role = EUserRole.Admin,} }
+                        Role = EUserRole.Admin,
+                        BuyerSigninStatus = EBuyerSigninStatus.Inprogress,
+                        BuyerGender = EGender.Male,
+                         } }
                 );
 
         }

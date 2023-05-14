@@ -14,5 +14,8 @@ namespace Contracts
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);
+        void CreateRange(IEnumerable<T> entities);
+        void DeleteAll();
+        void DeleteRange(IEnumerable<T> entities);
     }
 }

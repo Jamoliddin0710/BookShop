@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Model
+namespace Entities.Models.Enums
 {
-    public enum EUserRole
+    public enum EInscription
     {
-        Admin,
-        User,
-        Seller,
+        Latin,
+        Cyrilic
     }
 }
