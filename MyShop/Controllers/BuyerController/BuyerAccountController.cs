@@ -32,7 +32,7 @@ namespace MyShop.Controllers.BuyerController
         public async Task<IActionResult> SignUp([FromForm] CreateBuyerDTO createBuyer)
         {
             if (!ModelState.IsValid)
-                throw new EntityNullException<CreateBuyerDTO>();
+                throw new EntityNotValidException<CreateBuyerDTO>();
 
             var key = System.Text.Encoding.UTF8.GetBytes(options.Value.SecretKey);
 
@@ -55,7 +55,7 @@ namespace MyShop.Controllers.BuyerController
             return Ok(authinfo);
         }
 
-        [Authorize(Roles = "Buyer,Admin")]
+        [Authorize(Roles = "Buyer")]
         [HttpGet("profile")]
         public async Task<IActionResult> Profile()
         {

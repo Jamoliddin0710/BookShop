@@ -15,6 +15,5 @@ namespace Contracts
         void DeleteBook(Book book);
         Task<Book> GetBookById(int bookId, bool trackChanges);
         IQueryable<Book> GetAllBook(bool tracking);
-
     }
 }

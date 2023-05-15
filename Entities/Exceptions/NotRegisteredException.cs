@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Entities.Exceptions
 {
-    public class EntityNullException<T> : Exception
+    public class NotRegisteredException : Exception
     {
-        public EntityNullException() : base($"{typeof(T).Name} is null"){ }
+        public NotRegisteredException() : base("User not registered") { }
     }
 }

@@ -7,5 +7,6 @@ namespace MyShop.Controllers.AdminController
     [ApiController]
     public class AdminMainController : ControllerBase
     {
+        
     }
 }

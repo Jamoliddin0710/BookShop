@@ -7,6 +7,7 @@ using Entities.ModelView;
 using Mapster;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MyShop.Logger;
 using MyShop.Services.BuyerService.Contracts;
 using Repository;
 using System;
@@ -18,16 +19,18 @@ namespace MyShop.Services.BuyerService
 {
     public class BuyerService : IBuyerService
     {
+        private readonly MyShop.Logger.ILogger logger;
         private readonly IRepositoryManager repositoryManager;
         public BuyerService(IRepositoryManager repositoryManager)
         {
+            logger = new FileLogger();
             this.repositoryManager = repositoryManager;
         }
 
         public async Task<UserAuthInfo> SignUp(byte[] key, CreateBuyerDTO createBuyer)
         {
             if (createBuyer is null)
-                throw new EntityNullException<CreateBuyerDTO>();
+                throw new EntityNotValidException<CreateBuyerDTO>();
 
             var buyer = createBuyer.Adapt<Buyer>();
             buyer.Role = Entities.Models.Enums.EUserRole.Buyer;
@@ -48,6 +51,7 @@ namespace MyShop.Services.BuyerService
             }
             catch (Exception ex)
             {
+                logger.Log(ex.Message);
                 throw new EntityNotFoundException<Buyer>();
             }
         }
