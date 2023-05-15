@@ -11,7 +11,7 @@ namespace Entities.DTO.Seller
 {
     public class UpdateSellerDTO
     {
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public EGender BuyerGender { get; set; }
         public ESellerStatus Status { get; set; }

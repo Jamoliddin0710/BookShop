@@ -5,13 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.DTO.User
+namespace Entities.DTO.Publisher
 {
-    public class UserCredentials
+    public class CreatePublisherDTO
     {
         [Required]
-        public string PhoneNumber { get; set; }
-        [Required]
-        public string Password { get; set; }
+        public string Name { get; set; }
     }
 }

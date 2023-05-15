@@ -1,6 +1,7 @@
 ﻿using Entities.DTO.Seller;
 using Entities.DTO.User;
 using Entities.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -9,6 +10,7 @@ using MyShop.Services.SellerService.Contracts;
 namespace MyShop.Controllers.SellerController
 {
     [Route("api/[controller]")]
+    [Authorize(Roles = "Seller")]
     [ApiController]
     public class SellerAccountController : ControllerBase
     {
@@ -21,6 +23,7 @@ namespace MyShop.Controllers.SellerController
         }
 
         [HttpPost("sign-up")]
+        [AllowAnonymous]
         public async Task<IActionResult> SignUp(CreateSellerDTO sellerDTO)
         {
             if (!ModelState.IsValid)
@@ -31,6 +34,7 @@ namespace MyShop.Controllers.SellerController
         }
 
         [HttpPost("sign-in")]
+        [AllowAnonymous]
         public async Task<IActionResult> SignIn(UserCredentials userCredentials, CancellationToken token)
         {
             if (!ModelState.IsValid)
@@ -40,14 +44,14 @@ namespace MyShop.Controllers.SellerController
             return Ok(userAuth);
         }
 
-        [HttpGet]
+        [HttpGet("profile")]
         public async Task<IActionResult> Profile()
         {
             var seller = await serviceManager.Seller.GetSellerAsync(User, trackChanges: true);
             return Ok(seller);
         }
 
-        [HttpPost]
+        [HttpPost("edit-profile")]
         public async Task<IActionResult> EditProfile(UpdateSellerDTO sellerDTO)
         {
             serviceManager.Seller.UpdateSellerasync(User, sellerDTO, true);

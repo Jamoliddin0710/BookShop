@@ -14,7 +14,7 @@ using System.Security.Claims;
 
 namespace MyShop.Controllers.BuyerController
 {
-    [Authorize]
+    [Authorize(Roles = "Buyer")]
     [Route("api/[controller]")]
     [ApiController]
     public class BuyerAccountController : ControllerBase
@@ -55,7 +55,7 @@ namespace MyShop.Controllers.BuyerController
             return Ok(authinfo);
         }
 
-        [Authorize(Roles = "Buyer")]
+
         [HttpGet("profile")]
         public async Task<IActionResult> Profile()
         {
@@ -63,7 +63,6 @@ namespace MyShop.Controllers.BuyerController
             return Ok(buyerDTO);
         }
 
-        [Authorize]
         [HttpPost("edit-profile")]
         public async Task<IActionResult> EditProfileAsync(UpdateBuyerDTO updateBuyer)
         {
