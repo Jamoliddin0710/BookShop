@@ -10,13 +10,14 @@ namespace Entities.DTO.Book
 {
     public class UpdateBookDTO
     {
-        public string? Name { get; set; }
-        public string? Description { get; set; }
+        public string? Title { get; set; }
+        public string? Summary { get; set; }
         public Decimal? Price { get; set; }
-        public ECover Cover { get; set; }
+        public string? ISBN { get; set; }
+        public ECover? Cover { get; set; }
         public Guid? authorId { get; set; }
-        public EInscription Inscription { get; set; }
-        public ELanguage Language { get; set; }
+        public EInscription? Inscription { get; set; }
+        public ELanguage? Language { get; set; }
         public int? PagesCount { get; set; }
         public int? Count { get; set; }
         public int? genreId { get; set; }

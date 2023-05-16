@@ -1,4 +1,5 @@
 ﻿using Entities.DTO.Book;
+using Entities.ModelView;
 
 namespace MyShop.Services.BookService.Contracts
 {
@@ -7,7 +8,7 @@ namespace MyShop.Services.BookService.Contracts
         Task AddBook(CreateBookDTO bookDTO);
         Task DeleteBook(int bookId);
         Task UpdateBook(int bookId, UpdateBookDTO bookDTO);
-        Task<CreateBookDTO> GetBookById(int bookId, bool trackChanges);
-        Task<ICollection<CreateBookDTO>> GetAllBooks(bool trackChanges);
+        Task<BookDTO> GetBookById(int bookId, bool trackChanges);
+        Task<ICollection<BookDTO>> GetAllBooks(bool trackChanges);
     }
 }

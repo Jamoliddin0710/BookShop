@@ -1,6 +1,8 @@
 ﻿using Entities.DTO.Book;
+using Entities.DTO.Seller;
 using Entities.Exceptions;
 using Entities.Models;
+using Entities.ModelView;
 using Mapster;
 using MyShop.Services.BookService.Contracts;
 using Repository;
@@ -30,36 +32,41 @@ namespace MyShop.Services.BookService
             await repositoryManager.SaveAsync();
         }
 
-        public async Task<ICollection<CreateBookDTO>> GetAllBooks(bool trackChanges)
+        public async Task<ICollection<BookDTO>> GetAllBooks(bool trackChanges)
         {
             var books =  repositoryManager.Book.GetAllBook(trackChanges);
             
             if(books is null)
-                return new List<CreateBookDTO>();
-            return books.Adapt<ICollection<CreateBookDTO>>();
+                return new List<BookDTO>();
+            return books.Adapt<ICollection<BookDTO>>();
         }
 
-        public async Task<CreateBookDTO> GetBookById(int bookId, bool trackChanges)
+        public async Task<BookDTO> GetBookById(int bookId, bool trackChanges)
         {
             var book = await repositoryManager.Book.GetBookById(bookId, trackChanges);
             if (book is null)
                 throw new EntityNotFoundException<Book>();
             
-            return book.Adapt<CreateBookDTO>(); 
+            return book.Adapt<BookDTO>(); 
         }
 
         public async Task UpdateBook(int bookId, UpdateBookDTO bookDTO)
         {
-            var book = await repositoryManager.Book.GetBookById(bookId, false);
-            book.Name = bookDTO.Name;
-            book.Description = bookDTO.Description;
-            book.Cover = bookDTO.Cover;
-            // book.authorId = bookDTO.authorId;
-            book.Price = bookDTO.Price;
-            book.Count = bookDTO.Count;
-            book.genreId = bookDTO.genreId;
-            repositoryManager.Book.UpdateBook(book);
+            var book = await repositoryManager.Book.GetBookById(bookId, true);
+            if (book is null)
+                throw new EntityNotFoundException<Book>();
+
+            var config = new TypeAdapterConfig();
+            config.ForType<UpdateSellerDTO, Book>()
+                .IgnoreNullValues(true)
+                .BeforeMapping((src, dest) =>
+                {
+                    dest.Id = book.Id;
+                });
+            var bookUpdate = bookDTO.Adapt(book, config);
+            repositoryManager.Book.UpdateBook(bookUpdate);
             await repositoryManager.SaveAsync();
+
         }
 
     }

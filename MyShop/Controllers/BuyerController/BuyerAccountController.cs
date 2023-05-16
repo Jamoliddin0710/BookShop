@@ -67,7 +67,7 @@ namespace MyShop.Controllers.BuyerController
         public async Task<IActionResult> EditProfileAsync(UpdateBuyerDTO updateBuyer)
         {
             await service.Buyer.UpdateBuyerasync(User, updateBuyer, true);
-            return Ok();
+            return NoContent();
         }
     }
 }

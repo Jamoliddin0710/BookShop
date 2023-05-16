@@ -24,7 +24,7 @@ namespace MyShop.Controllers.SellerController
 
         [HttpPost("sign-up")]
         [AllowAnonymous]
-        public async Task<IActionResult> SignUp(CreateSellerDTO sellerDTO)
+        public async Task<IActionResult> SignUp([FromForm]CreateSellerDTO sellerDTO)
         {
             if (!ModelState.IsValid)
                 throw new EntityNotValidException<CreateSellerDTO>();
@@ -35,7 +35,7 @@ namespace MyShop.Controllers.SellerController
 
         [HttpPost("sign-in")]
         [AllowAnonymous]
-        public async Task<IActionResult> SignIn(UserCredentials userCredentials, CancellationToken token)
+        public async Task<IActionResult> SignIn([FromForm]UserCredentials userCredentials, CancellationToken token)
         {
             if (!ModelState.IsValid)
                 throw new EntityNotValidException<UserCredentials>();
@@ -52,10 +52,10 @@ namespace MyShop.Controllers.SellerController
         }
 
         [HttpPost("edit-profile")]
-        public async Task<IActionResult> EditProfile(UpdateSellerDTO sellerDTO)
+        public async Task<IActionResult> EditProfile([FromForm] UpdateSellerDTO sellerDTO)
         {
-            serviceManager.Seller.UpdateSellerasync(User, sellerDTO, true);
-            return Ok();
+            await serviceManager.Seller.UpdateSellerasync(User, sellerDTO, true);
+            return NoContent();
         }
     }
 }

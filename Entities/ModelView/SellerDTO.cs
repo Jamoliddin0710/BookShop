@@ -19,7 +19,6 @@ namespace Entities.ModelView
         public EGender BuyerGender { get; set; }
         public string? ImageUrl { get; set; }
         public int? publisherId { get; set; }
-        [ForeignKey(nameof(publisherId))]
-        public Publisher? Publisher { get; set; }
+        public PublisherDTO? Publisher { get; set; }
     }
 }

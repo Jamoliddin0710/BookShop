@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MyShop.Services.AdminService;
+using MyShop.Services.AdminService.Contracts;
 using MyShop.Services.BuyerService;
 using MyShop.Services.BuyerService.Contracts;
 using Repository;
@@ -18,10 +20,8 @@ builder.Services.AddDbContext<RepositoryContext>(options
 {
     options.UseInMemoryDatabase("inmemory");
 });
-builder.Services.AddScoped<IBuyerRepository, BuyerRepository>();
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
-builder.Services.AddScoped<IBuyerService,BuyerService>();
-builder.Services.AddScoped<IBuyerServiceManager, BuyerServiceManager>();
+//builder.Services.AddScoped<IBuyerServiceManager, BuyerServiceManager>();
 builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
@@ -94,7 +94,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

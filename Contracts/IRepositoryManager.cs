@@ -12,6 +12,7 @@ namespace Contracts
         IBuyerRepository Buyer {  get; }
         IBookRepository Book { get; }
         ISellerRepository Seller { get; }
+        IPublisherRepository Publisher { get; } 
         Task SaveAsync();
     }
 }

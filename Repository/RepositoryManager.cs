@@ -12,9 +12,10 @@ namespace Repository
     {
         private readonly RepositoryContext context;
         private Lazy<IBuyerRepository> buyerRepository;
+        private Lazy<IPublisherRepository> publisherRepository;
         private Lazy<IBookRepository> bookRepository;
         private Lazy<ISellerRepository> sellerRepository;
-        private Lazy<IPublisherRepository> publisherRepository;
+      
         public RepositoryManager(RepositoryContext context)
         {
             this.context = context;

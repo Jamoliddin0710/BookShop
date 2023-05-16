@@ -1,19 +1,18 @@
-﻿using System;
+﻿using Entities.Models;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Models
+namespace Entities.ModelView
 {
-    public class Author
+    public class AuthorDTO
     {
-        [Column("authorId")]
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string BIO { get; set; }
-        public List<Book> Books { get; set;} 
+        public string? BIO { get; set; }
+        public List<BookDTO> Books { get; set; }
     }
 }

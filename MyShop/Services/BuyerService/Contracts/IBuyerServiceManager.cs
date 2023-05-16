@@ -1,7 +1,10 @@
-﻿namespace MyShop.Services.BuyerService.Contracts
+﻿using MyShop.Services.AdminService.Contracts;
+
+namespace MyShop.Services.BuyerService.Contracts
 {
     public interface IBuyerServiceManager
     {
         IBuyerService Buyer { get; }
+        IPublisherService Publisher { get; }
     }
 }

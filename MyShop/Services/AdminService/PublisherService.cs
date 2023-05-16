@@ -1,5 +1,10 @@
 ﻿using Contracts;
 using Entities.DTO.Book;
+using Entities.DTO.Publisher;
+using Entities.Exceptions;
+using Entities.Models;
+using Entities.ModelView;
+using Mapster;
 using MyShop.Services.AdminService.Contracts;
 
 namespace MyShop.Services.AdminService
@@ -13,29 +18,45 @@ namespace MyShop.Services.AdminService
             this.repositoryManager = repositoryManager;
         }
 
-        public Task AddPublisher(CreateBookDTO bookDTO)
+        public async Task AddPublisher(CreatePublisherDTO publisherDTO)
         {
-            throw new NotImplementedException();
+            var publisher = publisherDTO.Adapt<Publisher>();
+            repositoryManager.Publisher.AddPublisher(publisher);
+            await repositoryManager.SaveAsync();
         }
 
-        public Task DeletePublisher(int bookId)
+        public async Task DeletePublisher(int publisherId, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var publisher = await repositoryManager.Publisher.GetPublisherById(publisherId, trackChanges);
+            if (publisher is null)
+                throw new EntityNotFoundException<Publisher>();
+            repositoryManager.Publisher.DeletePublisher(publisher);
+            await repositoryManager.SaveAsync();
         }
 
-        public Task<ICollection<CreateBookDTO>> GetAllPublishers(bool trackChanges)
+        public async Task<IEnumerable<PublisherDTO>> GetAllPublishers(bool trackChanges)
         {
-            throw new NotImplementedException();
+            var publishers = repositoryManager.Publisher.GetAllPublisher(trackChanges);
+            if (publishers is null)
+                return new List<PublisherDTO>();
+            return publishers.Adapt<List<PublisherDTO>>();
         }
 
-        public Task<CreateBookDTO> GetPublisherById(int bookId, bool trackChanges)
+        public async Task<PublisherDTO> GetPublisherById(int publisherId, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var publisher = await repositoryManager.Publisher.GetPublisherById(publisherId, trackChanges);
+            if (publisher is null)
+                throw new EntityNotFoundException<Publisher>();
+            return publisher.Adapt<PublisherDTO>();
         }
 
-        public Task UpdatePublisher(int bookId, UpdateBookDTO bookDTO)
+        public async Task UpdatePublisher(int publisherId)
         {
-            throw new NotImplementedException();
+            var publisher = await repositoryManager.Publisher.GetPublisherById(publisherId, true);
+            if (publisher is null)
+                throw new EntityNotFoundException<Publisher>();
+            repositoryManager.Publisher.UpdatePublisher(publisher);
+            await repositoryManager.SaveAsync();
         }
     }
 }
