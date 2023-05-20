@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Entities.ModelView
 {
@@ -19,15 +20,18 @@ namespace Entities.ModelView
         public string ISBN { get; set; }
         public DateTime CreatedDate { get; set; }
         public ECover Cover { get; set; }
-        public Guid? authorId { get; set; }
+        public int? authorId { get; set; }
+        [JsonIgnore]
         public AuthorDTO? Author { get; set; }
         public EInscription Inscription { get; set; }
-        public ICollection<BookPublisher>? BookPublishers { get; set; }
+        [JsonIgnore]
+        public ICollection<BookPublisherDTO>? BookPublishers { get; set; }
         public ELanguage Language { get; set; }
-        public ICollection<ImageDTO> Images { get; set; }
+
+        //  public ICollection<ImageDTO> Images { get; set; }
         public int PagesCount { get; set; }
         public int Count { get; set; }
-        public int? genreId { get; set; }
-        public GenreDTO? Genre { get; set; }
+       // public int? genreId { get; set; }
+        public string? GenreName { get; set; }
     }
 }

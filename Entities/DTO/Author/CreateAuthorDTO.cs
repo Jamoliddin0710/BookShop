@@ -1,19 +1,17 @@
-﻿using Entities.Models;
-using Newtonsoft.Json;
+﻿
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.ModelView
+namespace Entities.DTO.Author
 {
-    public class AuthorDTO
+    public class CreateAuthorDTO
     {
-        public int Id { get; set; }
+        [Required]
         public string FullName { get; set; }
         public string? BIO { get; set; }
-       [JsonIgnore]
-        public List<BookDTO> Books { get; set; }
     }
 }

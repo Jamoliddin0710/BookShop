@@ -11,6 +11,6 @@ namespace Entities.ModelView
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<BookPublisherDTO> BookPublishers { get; set; }
+        public ICollection<BookDTO> Books { get; set; }
     }
 }

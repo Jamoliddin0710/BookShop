@@ -17,11 +17,11 @@ namespace MyShop.Controllers.BuyerController
     [Authorize(Roles = "Buyer")]
     [Route("api/[controller]")]
     [ApiController]
-    public class BuyerAccountController : ControllerBase
+    public class Buyer_AccountController : ControllerBase
     {
         private readonly IBuyerServiceManager service;
         public IOptions<AppSettings> options { get; }
-        public BuyerAccountController(IOptions<AppSettings> options, IBuyerServiceManager service)
+        public Buyer_AccountController(IOptions<AppSettings> options, IBuyerServiceManager service)
         {
             this.options = options;
             this.service = service;
@@ -63,7 +63,7 @@ namespace MyShop.Controllers.BuyerController
             return Ok(buyerDTO);
         }
 
-        [HttpPost("edit-profile")]
+        [HttpPut("edit-profile")]
         public async Task<IActionResult> EditProfileAsync(UpdateBuyerDTO updateBuyer)
         {
             await service.Buyer.UpdateBuyerasync(User, updateBuyer, true);

@@ -6,15 +6,18 @@ namespace MyShop.Services.SellerService
 {
     public class SellerServiceManager : ISellerServiceManager
     {
-        private readonly Lazy<ISellerService> service;
+        private readonly Lazy<ISellerService> sellerService;
+        private readonly Lazy<IBookService> bookService;
 
         public SellerServiceManager(IRepositoryManager repositoryManager)
         {
-            this.service = new Lazy<ISellerService>(() => new SellerService(repositoryManager));
+            this.sellerService = new Lazy<ISellerService>(() => new SellerService(repositoryManager));
+            this.bookService = new Lazy<IBookService>(() => new BookService(repositoryManager)); 
         }
 
-        public ISellerService Seller => throw new NotImplementedException();
 
-        public IBookRepository Book => throw new NotImplementedException();
+        public ISellerService Seller => sellerService.Value;
+
+        public IBookService Book => bookService.Value;
     }
 }

@@ -12,15 +12,22 @@ namespace Entities.DTO.Book
 {
     public class CreateBookDTO
     {
-        public string Name { get; set; }
         [Required]
-        public string Description { get; set; }
+        public string? Title { get; set; }
         [Required]
-        public Decimal Price { get; set; }
+        public string? Summary { get; set; }
+        [Required]
+        public Decimal? Price { get; set; }
+        [Required]
+        public string? ISBN { get; set; }
+        [Required]
         public ECover Cover { get; set; }
         [Required]
-        public Guid authorId { get; set; }
+        public int authorId { get; set; }
+        [Required]
         public EInscription Inscription { get; set; }
+        public List<CreateBookPublisherDTO> BookPublishers { get; set; }
+        [Required]
         public ELanguage Language { get; set; }
         [Required]
         public int PagesCount { get; set; }

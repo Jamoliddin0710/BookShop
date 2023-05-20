@@ -12,11 +12,11 @@ namespace MyShop.Controllers.SellerController
     [Route("api/[controller]")]
     [Authorize(Roles = "Seller")]
     [ApiController]
-    public class SellerAccountController : ControllerBase
+    public class Seller_AccountController : ControllerBase
     {
         private readonly ISellerServiceManager serviceManager;
         IOptions<AppSettings> options { get; }
-        public SellerAccountController(ISellerServiceManager serviceManager, IOptions<AppSettings> options)
+        public Seller_AccountController(ISellerServiceManager serviceManager, IOptions<AppSettings> options)
         {
             this.serviceManager = serviceManager;
             this.options = options;
@@ -51,7 +51,7 @@ namespace MyShop.Controllers.SellerController
             return Ok(seller);
         }
 
-        [HttpPost("edit-profile")]
+        [HttpPut("edit-profile")]
         public async Task<IActionResult> EditProfile([FromForm] UpdateSellerDTO sellerDTO)
         {
             await serviceManager.Seller.UpdateSellerasync(User, sellerDTO, true);

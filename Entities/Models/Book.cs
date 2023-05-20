@@ -20,18 +20,17 @@ namespace Entities.Models
         [Required]
         public Decimal? Price { get; set; }
         [Required]
-        public string ISBN { get; set; }
-        [Required]
+        public string? ISBN { get; set; }
         public DateTime CreatedDate { get; set; }
         public ECover Cover { get; set; }
         [Required]
-        public Guid? authorId {  get; set; }
+        public int authorId {  get; set; }
         [ForeignKey("authorId")]
         public Author? Author { get; set; }
         public EInscription Inscription { get; set; }
-        public ICollection<BookPublisher> BookPublishers { get; set; }
+        public List<BookPublisher> BookPublishers { get; set; }
         public ELanguage Language { get; set; }
-        public ICollection<Image> Images { get; set; }
+        public List<Image> Images { get; set; }
         [Required]
         public int PagesCount { get; set; }
         [Required]

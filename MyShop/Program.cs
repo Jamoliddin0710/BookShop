@@ -9,6 +9,8 @@ using MyShop.Services.AdminService;
 using MyShop.Services.AdminService.Contracts;
 using MyShop.Services.BuyerService;
 using MyShop.Services.BuyerService.Contracts;
+using MyShop.Services.SellerService;
+using MyShop.Services.SellerService.Contracts;
 using Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,10 +20,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<RepositoryContext>(options
     =>
 {
-    options.UseInMemoryDatabase("inmemory");
+    options.UseNpgsql(builder.Configuration.GetConnectionString("localhost"));
+    //
 });
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
-//builder.Services.AddScoped<IBuyerServiceManager, BuyerServiceManager>();
+builder.Services.AddScoped<IBuyerServiceManager, BuyerServiceManager>();
+builder.Services.AddScoped<ISellerServiceManager, SellerServiceManager>();
+builder.Services.AddScoped<IAdminServiceManager, AdminServiceManager>();
 builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>

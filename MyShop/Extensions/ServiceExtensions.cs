@@ -1,8 +1,6 @@
 ﻿using Contracts;
 using MyShop.Services.AdminService;
 using MyShop.Services.AdminService.Contracts;
-using MyShop.Services.BookService;
-using MyShop.Services.BookService.Contracts;
 using MyShop.Services.BuyerService;
 using MyShop.Services.BuyerService.Contracts;
 using MyShop.Services.SellerService;
@@ -18,7 +16,7 @@ namespace MyShop.Extensions
             services.AddScoped<IRepositoryManager, RepositoryManager>();
         }
 
-        public static void ConfigurationBuyerServiceMAnager(this IServiceCollection services)
+        public static void ConfigurationBuyerServiceManager(this IServiceCollection services)
         {
             services.AddScoped<IBuyerServiceManager, BuyerServiceManager>();
         }
@@ -27,27 +25,5 @@ namespace MyShop.Extensions
         {
             services.AddScoped<ISellerServiceManager, SellerServiceManager>();
         }
-
-  /*      public static void ConfigurationBuyerService(this IServiceCollection services)
-        {
-            services.AddScoped<ISellerService, SellerService>();
-        }
-
-        public static void ConfigurationSellerService(this IServiceCollection services)
-        {
-            services.AddScoped<ISellerService, SellerService>();
-        }
-
-        public static void ConfigurationBookService(this IServiceCollection services)
-        {
-            services.AddScoped<IBookService, BookService>();
-        }
-
-        public static void ConfigurationPublisherService(this IServiceCollection services)
-        {
-            services.AddScoped<IPublisherService, PublisherService>();
-        }*/
-
-
     }
 }

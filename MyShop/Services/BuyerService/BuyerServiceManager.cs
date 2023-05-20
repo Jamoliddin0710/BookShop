@@ -12,6 +12,8 @@ namespace MyShop.Services.BuyerService
     {
         private readonly Lazy<IBuyerService> buyerService;
         private readonly Lazy<IPublisherService> publisherService;
+        private readonly Lazy<IGenreService> genreService;
+        private readonly Lazy<IAuthorService> authorService;
         public BuyerServiceManager(IRepositoryManager repository)
         {
             this.buyerService = new Lazy<IBuyerService>(() => new BuyerService(repository));
@@ -21,5 +23,9 @@ namespace MyShop.Services.BuyerService
         public IBuyerService Buyer => buyerService.Value;
 
         public IPublisherService Publisher => publisherService.Value;
+
+        public IAuthorService Author => throw new NotImplementedException();
+
+        public IGenreService Genre => throw new NotImplementedException();
     }
 }

@@ -12,6 +12,6 @@ namespace Entities.Models
         [Column("publisherId")]
         public int Id { get; set; } 
         public string Name { get; set; }
-        public ICollection<BookPublisher> BookPublishers { get; set; }
+        public List<BookPublisher> BookPublishers { get; set; }
     }
 }

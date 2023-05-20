@@ -8,7 +8,7 @@ namespace Entities.Models.Enums
 {
     public enum ECover
     {
-        Hard,
-        Soft,
+        Hard = 1,
+        Soft = 2,
     }
 }

@@ -6,5 +6,7 @@ namespace MyShop.Services.BuyerService.Contracts
     {
         IBuyerService Buyer { get; }
         IPublisherService Publisher { get; }
+        IAuthorService Author { get; }
+        IGenreService Genre { get; }
     }
 }

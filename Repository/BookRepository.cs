@@ -19,9 +19,9 @@ namespace Repository
 
         public void DeleteBook(Book book) => Delete(book);
 
-        public IQueryable<Book> GetAllBook(bool tracking) =>  
-            FindAll(tracking).Include(book=>book.Author).Include(book=>book.BookPublishers)
-            .Include(book=>book.Images).OrderBy(book=>book.Title);
+        public IQueryable<Book> GetAllBook(bool tracking) =>
+            FindAll(tracking).Include(book => book.Author).Include(book => book.BookPublishers)
+            .Include(book => book.Images).OrderBy(book => book.Title);
 
         public async Task<Book> GetBookById(int bookId, bool trackChanges) =>
             await FindByCondition(book => book.Id == bookId, trackChanges)

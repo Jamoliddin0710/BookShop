@@ -17,7 +17,7 @@ namespace Entities.DTO.Seller
         public string PhoneNumber { get; set; }
         [Required]
         public string Password { get; set; }
-        public EGender BuyerGender { get; set; }
+        public EGender SellerGender { get; set; }
         public ESellerStatus Status { get; set; }
         public string? ImageUrl { get; set; }
         [Required]

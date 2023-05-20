@@ -10,11 +10,11 @@ namespace MyShop.Controllers.AdminController
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
-    public partial class AdminAccountController : ControllerBase
+    public partial class Admin_AccountController : ControllerBase
     {
         private readonly IBuyerServiceManager buyerServiceManager;
         public IOptions<AppSettings> options;
-        public AdminAccountController(IBuyerServiceManager buyerServiceManager, IOptions<AppSettings> appSettings)
+        public Admin_AccountController(IBuyerServiceManager buyerServiceManager, IOptions<AppSettings> appSettings)
         {
             this.buyerServiceManager = buyerServiceManager;
             this.options = appSettings;
