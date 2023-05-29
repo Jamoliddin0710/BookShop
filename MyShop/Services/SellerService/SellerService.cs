@@ -128,15 +128,14 @@ namespace MyShop.Services.SellerService
             if (seller is null)
                 throw new EntityNotFoundException<Seller>();
             return seller.Adapt<SellerDTO>();
-
         }
 
         public async Task<List<SellerDTO>> GetAllSeller(bool trackChanges)
         {
-            var sellers =  repositoryManager.Seller.GetAllSellers(trackChanges);
+            var sellers = repositoryManager.Seller.GetAllSellers(trackChanges);
             if (sellers is null || !sellers.Any())
                 return new List<SellerDTO>();
-            return  sellers.Adapt<List<SellerDTO>>();
+            return sellers.Adapt<List<SellerDTO>>();
         }
 
         public async Task UpdateSeller(Guid sellerId, UpdateSellerDTO sellerDTO)
