@@ -25,8 +25,11 @@ namespace Entities.DTO.Book
         [Required]
         public int authorId { get; set; }
         [Required]
+        public Guid sellerId { get; set; }
+        [Required]
         public EInscription Inscription { get; set; }
-        public List<CreateBookPublisherDTO> BookPublishers { get; set; }
+        [Required]
+        public int publisherId { get; set; }
         [Required]
         public ELanguage Language { get; set; }
         [Required]
@@ -35,5 +38,6 @@ namespace Entities.DTO.Book
         public int Count { get; set; }
         [Required]
         public int genreId { get; set; }
+        
     }
 }

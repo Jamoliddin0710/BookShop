@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts
+namespace Contracts.RepositoryContract
 {
     public interface IRepositoryManager
     {
-        IBuyerRepository Buyer {  get; }
+        IBuyerRepository Buyer { get; }
         IBookRepository Book { get; }
         ISellerRepository Seller { get; }
-        IPublisherRepository Publisher { get; } 
+        IPublisherRepository Publisher { get; }
         IGenreRepository Genre { get; }
         IAuthorRepository Author { get; }
         Task SaveAsync();

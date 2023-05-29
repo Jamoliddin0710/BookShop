@@ -1,4 +1,4 @@
-﻿using Contracts;
+﻿using Contracts.RepositoryContract;
 using Entities;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +23,7 @@ namespace Repository
         public void DeletePublisher(Publisher publisher) => DbSet.Remove(publisher);
 
         public IQueryable<Publisher> GetAllPublisher(bool tracking) =>
-             FindAll(tracking).Include(p => p.BookPublishers).OrderBy(p => p.Name);
+             FindAll(tracking).Include(p => p.Books).OrderBy(p => p.Name);
 
         public async Task<Publisher> GetPublisherById(int publisherId, bool trackChanges) =>
           await FindByCondition(publisher => publisher.Id == publisherId, trackChanges).SingleOrDefaultAsync();

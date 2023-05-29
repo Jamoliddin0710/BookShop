@@ -1,4 +1,4 @@
-﻿using Contracts;
+﻿using Contracts.RepositoryContract;
 using Entities.DTO.Author;
 using Entities.DTO.Genre;
 using Entities.Exceptions;

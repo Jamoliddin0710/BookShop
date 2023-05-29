@@ -11,6 +11,7 @@ namespace Entities.ModelView
 {
     public class SellerDTO
     {
+        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string? LastName { get; set; }
         public string PhoneNumber { get; set; }
@@ -18,7 +19,6 @@ namespace Entities.ModelView
         public string? Token { get; set; }
         public EGender BuyerGender { get; set; }
         public string? ImageUrl { get; set; }
-        public int? publisherId { get; set; }
-        public PublisherDTO? Publisher { get; set; }
+        public string PublisherName { get; set; }
     }
 }

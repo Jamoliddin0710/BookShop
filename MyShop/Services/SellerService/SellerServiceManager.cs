@@ -1,4 +1,4 @@
-﻿using Contracts;
+﻿using Contracts.RepositoryContract;
 using Entities;
 using MyShop.Services.SellerService.Contracts;
 

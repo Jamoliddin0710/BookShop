@@ -1,4 +1,4 @@
-﻿using Contracts;
+﻿using Contracts.RepositoryContract;
 using Entities.DTO.User;
 using Microsoft.Extensions.Options;
 using MyShop.Services.AdminService;

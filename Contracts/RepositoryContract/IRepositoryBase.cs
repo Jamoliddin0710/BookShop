@@ -5,12 +5,12 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts
+namespace Contracts.RepositoryContract
 {
     public interface IRepositoryBase<T>
     {
         IQueryable<T> FindAll(bool tracking);
-        IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression , bool tracking);
+        IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool tracking);
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);

@@ -20,18 +20,13 @@ namespace Entities.ModelView
         public string ISBN { get; set; }
         public DateTime CreatedDate { get; set; }
         public ECover Cover { get; set; }
-        public int? authorId { get; set; }
-        [JsonIgnore]
-        public AuthorDTO? Author { get; set; }
+        public string? AuthorFullName { get; set; }
         public EInscription Inscription { get; set; }
-        [JsonIgnore]
-        public ICollection<BookPublisherDTO>? BookPublishers { get; set; }
+        public string? PublisherName { get; set; }
         public ELanguage Language { get; set; }
-
         //  public ICollection<ImageDTO> Images { get; set; }
         public int PagesCount { get; set; }
         public int Count { get; set; }
-       // public int? genreId { get; set; }
         public string? GenreName { get; set; }
     }
 }

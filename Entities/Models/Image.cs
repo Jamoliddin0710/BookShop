@@ -11,8 +11,8 @@ namespace Entities.Models
     {
         public int Id { get; set; }
         public string? ImageUrl { get; set; }
-        public int bookId { get; set; }
+        public int? bookId { get; set; }
         [ForeignKey(nameof(bookId))]
-        public Book Book { get; set; }
+        public Book? Book { get; set; }
     }
 }

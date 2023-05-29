@@ -48,7 +48,12 @@ namespace MyShop.Controllers.AdminController
 
         [HttpGet(Name = "GetAllAuthor")]
         public async Task<IActionResult> GetAllAuthor()
-        => Ok(await adminServiceManager.Author.GetAll(true));
+        {
+            var authors = await adminServiceManager.Author.GetAll(true);
+           return Ok(authors);
+        }
+
+        
 
         [HttpDelete]
         public async Task<IActionResult> DeleteAuhtor(int authorId)

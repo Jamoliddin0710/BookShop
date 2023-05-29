@@ -1,4 +1,4 @@
-﻿using Contracts;
+﻿using Contracts.RepositoryContract;
 using Entities;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +20,7 @@ namespace Repository
         public void DeleteBook(Book book) => Delete(book);
 
         public IQueryable<Book> GetAllBook(bool tracking) =>
-            FindAll(tracking).Include(book => book.Author).Include(book => book.BookPublishers)
+            FindAll(tracking).Include(book => book.Author).Include(book => book.Publisher)
             .Include(book => book.Images).OrderBy(book => book.Title);
 
         public async Task<Book> GetBookById(int bookId, bool trackChanges) =>

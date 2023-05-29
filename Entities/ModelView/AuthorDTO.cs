@@ -13,7 +13,6 @@ namespace Entities.ModelView
         public int Id { get; set; }
         public string FullName { get; set; }
         public string? BIO { get; set; }
-       [JsonIgnore]
         public List<BookDTO> Books { get; set; }
     }
 }

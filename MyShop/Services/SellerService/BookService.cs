@@ -1,4 +1,4 @@
-﻿using Contracts;
+﻿using Contracts.RepositoryContract;
 using Entities.DTO.Book;
 using Entities.DTO.Seller;
 using Entities.Exceptions;
@@ -36,7 +36,7 @@ namespace MyShop.Services.SellerService
 
         public async Task<List<BookDTO>> GetAllBooks(bool trackChanges)
         {
-            var books =  repositoryManager.Book.GetAllBook(trackChanges);
+            var books = repositoryManager.Book.GetAllBook(trackChanges);
 
             if (books is null)
                 return new List<BookDTO>();
@@ -59,7 +59,7 @@ namespace MyShop.Services.SellerService
                 throw new EntityNotFoundException<Book>();
 
             var config = new TypeAdapterConfig();
-            config.ForType<UpdateSellerDTO, Book>()
+            config.ForType<UpdateBookDTO, Book>()
                 .IgnoreNullValues(true)
                 .BeforeMapping((src, dest) =>
                 {
@@ -68,7 +68,6 @@ namespace MyShop.Services.SellerService
             var bookUpdate = bookDTO.Adapt(book, config);
             repositoryManager.Book.UpdateBook(bookUpdate);
             await repositoryManager.SaveAsync();
-
         }
 
     }

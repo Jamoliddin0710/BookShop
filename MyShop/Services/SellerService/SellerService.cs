@@ -1,4 +1,4 @@
-﻿using Contracts;
+﻿using Contracts.RepositoryContract;
 using Entities.DTO.Buyer;
 using Entities.DTO.Seller;
 using Entities.DTO.User;
@@ -9,6 +9,8 @@ using Mapster;
 using Microsoft.IdentityModel.Tokens;
 using MyShop.Logger;
 using MyShop.Services.SellerService.Contracts;
+using Newtonsoft.Json.Linq;
+using System.Collections;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -118,6 +120,66 @@ namespace MyShop.Services.SellerService
             if (string.IsNullOrEmpty(authinfo.Token))
                 throw new Exception("error generate token");
             return authinfo;
+        }
+
+        public async Task<SellerDTO> GetSellerById(Guid sellerId, bool trackChanges)
+        {
+            var seller = await repositoryManager.Seller.GetSellerById(sellerId, trackChanges);
+            if (seller is null)
+                throw new EntityNotFoundException<Seller>();
+            return seller.Adapt<SellerDTO>();
+
+        }
+
+        public async Task<List<SellerDTO>> GetAllSeller(bool trackChanges)
+        {
+            var sellers =  repositoryManager.Seller.GetAllSellers(trackChanges);
+            if (sellers is null || !sellers.Any())
+                return new List<SellerDTO>();
+            return  sellers.Adapt<List<SellerDTO>>();
+        }
+
+        public async Task UpdateSeller(Guid sellerId, UpdateSellerDTO sellerDTO)
+        {
+            var seller = await repositoryManager.Seller.GetSellerById(sellerId, false);
+
+
+            if (seller is null)
+                throw new EntityNotFoundException<Seller>();
+
+            var config = new TypeAdapterConfig();
+
+            config.ForType<UpdateSellerDTO, Seller>()
+                .IgnoreNullValues(true)
+                .BeforeMapping((src, dest) =>
+                {
+                    dest.Id = seller.Id;
+                    dest.PhoneNumber = seller.PhoneNumber;
+                    dest.Password = seller.Password;
+                    dest.Role = seller.Role;
+                });
+
+            var sellerUpdate = sellerDTO.Adapt(seller, config);
+            repositoryManager.Seller.UpdateSeller(sellerUpdate);
+            await repositoryManager.SaveAsync();
+        }
+
+        public async Task<SellerDTO> GetSellerByPhone(string phone, bool trackChanges)
+        {
+            var seller = await repositoryManager.Seller.GetSellerByPhone(phone, trackChanges);
+            if (seller is null)
+                throw new EntityNotFoundException<Seller>();
+            return seller.Adapt<SellerDTO>();
+        }
+
+        public async Task DeleteSeller(Guid sellerId)
+        {
+            var seller = await repositoryManager.Seller.GetSellerById(sellerId, false);
+
+            if (seller is null)
+                throw new EntityNotFoundException<Seller>();
+            repositoryManager.Seller.DeleteSeller(seller);
+            await repositoryManager.SaveAsync();
         }
     }
 }

@@ -1,4 +1,4 @@
-using Contracts;
+using Contracts.RepositoryContract;
 using Entities;
 using Entities.DTO.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

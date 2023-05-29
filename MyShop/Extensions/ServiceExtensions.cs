@@ -1,4 +1,4 @@
-﻿using Contracts;
+﻿using Contracts.RepositoryContract;
 using MyShop.Services.AdminService;
 using MyShop.Services.AdminService.Contracts;
 using MyShop.Services.BuyerService;
