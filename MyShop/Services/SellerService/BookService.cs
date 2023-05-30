@@ -67,6 +67,14 @@ namespace MyShop.Services.SellerService
             if (filter.ToPrice is not null)
                 books = books.Where(book => book.Price <= filter.ToPrice).AsQueryable();
 
+            if (filter.SortingStatus is not null)
+                books = filter.SortingStatus switch
+                {
+                    EBookSotringStatus.New => books.OrderBy(book => book.CreatedDate).AsQueryable(),
+                    EBookSotringStatus.Cheap => books.OrderBy(book => book.Price).AsQueryable(),
+                    EBookSotringStatus.Most_Expensive => books.OrderByDescending(book => book.Price).AsQueryable(),
+                };
+
             var sortingbooks = books.Adapt<List<BookDTO>>().ToPagedList(filter);
 
             return sortingbooks;

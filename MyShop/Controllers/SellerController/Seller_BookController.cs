@@ -47,9 +47,9 @@ namespace MyShop.Controllers.SellerController
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAllBook()
+        public async Task<IActionResult> GetAllBook([FromQuery]BookFilterDTO bookFilter)
         {
-            var books = await sellerServiceManager.Book.GetAllBooks(true);
+            var books = await sellerServiceManager.Book.GetAllBooks(bookFilter, true);
             return Ok(books);
         }
 

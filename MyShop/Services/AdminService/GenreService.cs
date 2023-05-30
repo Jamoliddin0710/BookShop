@@ -47,8 +47,8 @@ namespace MyShop.Services.AdminService
             var genres = await repositoryManager.Genre.GetAll(trackChanges);
             if (genres is null)
                 return new List<GenreDTO>();
-            
-           var dtomodel =  (await genres.ToListAsync()).Adapt<IEnumerable<GenreDTO>>();
+
+            var dtomodel = (await genres.ToListAsync()).Adapt<IEnumerable<GenreDTO>>();
             return dtomodel;
         }
 

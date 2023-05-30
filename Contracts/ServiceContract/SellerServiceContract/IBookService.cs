@@ -9,6 +9,6 @@ namespace MyShop.Services.SellerService.Contracts
         Task DeleteBook(int bookId);
         Task UpdateBook(int bookId, UpdateBookDTO bookDTO);
         Task<BookDTO> GetBookById(int bookId, bool trackChanges);
-        Task<IEnumerable<BookDTO>> GetAllBooks(bool trackChanges);
+        Task<IEnumerable<BookDTO>> GetAllBooks(BookFilterDTO bookFilter, bool trackChanges);
     }
 }
