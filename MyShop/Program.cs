@@ -2,6 +2,7 @@ using Contracts.RepositoryContract;
 using Entities;
 using Entities.DTO.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -9,8 +10,7 @@ using MyShop.Services.AdminService;
 using MyShop.Services.AdminService.Contracts;
 using MyShop.Services.BuyerService;
 using MyShop.Services.BuyerService.Contracts;
-using MyShop.Services.SellerService;
-using MyShop.Services.SellerService.Contracts;
+
 using Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,13 +25,13 @@ builder.Services.AddDbContext<RepositoryContext>(options
 });
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IBuyerServiceManager, BuyerServiceManager>();
-builder.Services.AddScoped<ISellerServiceManager, SellerServiceManager>();
 builder.Services.AddScoped<IAdminServiceManager, AdminServiceManager>();
 builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 options.AddPolicy("CorsPolicy", builder =>
-builder.AllowCredentials().AllowAnyHeader().AllowAnyOrigin()));
+builder.AllowCredentials().AllowAnyHeader().WithOrigins("https://localhost:5001", "http://localhost:5000", 
+"https://localhost:44398" , "https://localhost:44398")));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -98,6 +98,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

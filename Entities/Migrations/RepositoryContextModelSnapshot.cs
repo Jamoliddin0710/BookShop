@@ -90,9 +90,6 @@ namespace Entities.Migrations
                     b.Property<int>("publisherId")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("sellerId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("authorId");
@@ -100,8 +97,6 @@ namespace Entities.Migrations
                     b.HasIndex("genreId");
 
                     b.HasIndex("publisherId");
-
-                    b.HasIndex("sellerId");
 
                     b.ToTable("Books");
                 });
@@ -144,7 +139,7 @@ namespace Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8ee5ee6a-bf0d-4987-aedc-2d7c1b938f05"),
+                            Id = new Guid("70d07670-9cae-464c-8b16-e95fd38eeedc"),
                             BuyerGender = 0,
                             BuyerSigninStatus = 0,
                             FirstName = "Admin",
@@ -212,56 +207,6 @@ namespace Entities.Migrations
                     b.ToTable("Publishers");
                 });
 
-            modelBuilder.Entity("Entities.Models.Seller", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("sellerId");
-
-                    b.Property<int>("BuyerGender")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Steps")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("publisherId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("publisherId");
-
-                    b.ToTable("Sellers");
-                });
-
             modelBuilder.Entity("Entities.Models.Book", b =>
                 {
                     b.HasOne("Entities.Models.Author", "Author")
@@ -278,19 +223,11 @@ namespace Entities.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.Seller", "Seller")
-                        .WithMany()
-                        .HasForeignKey("sellerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Author");
 
                     b.Navigation("Genre");
 
                     b.Navigation("Publisher");
-
-                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("Entities.Models.Image", b =>
@@ -300,15 +237,6 @@ namespace Entities.Migrations
                         .HasForeignKey("bookId");
 
                     b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("Entities.Models.Seller", b =>
-                {
-                    b.HasOne("Entities.Models.Publisher", "Publisher")
-                        .WithMany()
-                        .HasForeignKey("publisherId");
-
-                    b.Navigation("Publisher");
                 });
 
             modelBuilder.Entity("Entities.Models.Author", b =>

@@ -13,7 +13,7 @@ namespace Entities
     {
         public RepositoryContext(DbContextOptions options) : base(options)
         {
-           // Database.EnsureCreated();
+            // Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -22,7 +22,6 @@ namespace Entities
         }
 
         public DbSet<Buyer> Buyers { get; set; }
-        public DbSet<Seller> Sellers { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Publisher> Publishers { get; set; }

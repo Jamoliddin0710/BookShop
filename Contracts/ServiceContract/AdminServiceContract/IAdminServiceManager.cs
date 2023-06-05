@@ -1,5 +1,5 @@
-﻿using MyShop.Services.BuyerService.Contracts;
-using MyShop.Services.SellerService.Contracts;
+﻿using Contracts.ServiceContract.AdminServiceContract;
+using MyShop.Services.BuyerService.Contracts;
 
 namespace MyShop.Services.AdminService.Contracts
 {
@@ -8,7 +8,7 @@ namespace MyShop.Services.AdminService.Contracts
         public IPublisherService Publisher {  get; }
         public IAuthorService Author { get; }
         public IGenreService Genre { get; }
-        public IBuyerService Buyer { get; }
-        public ISellerService Seller { get; }
+        public IBuyerService Buyer { get; } 
+        public IBookService Book { get; }
     }
 }

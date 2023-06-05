@@ -24,8 +24,7 @@ namespace Entities.DTO.Book
         public ECover Cover { get; set; }
         [Required]
         public int authorId { get; set; }
-        [Required]
-        public Guid sellerId { get; set; }
+
         [Required]
         public EInscription Inscription { get; set; }
         [Required]

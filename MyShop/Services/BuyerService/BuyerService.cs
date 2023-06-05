@@ -33,7 +33,7 @@ namespace MyShop.Services.BuyerService
                 throw new EntityNotValidException<CreateBuyerDTO>();
 
             var buyer = createBuyer.Adapt<Buyer>();
-            buyer.Role = Entities.Models.Enums.EUserRole.Buyer;
+            buyer.Role = Entities.Models.Enums.EUserRole.User;
             repositoryManager.Buyer.AddBuyer(buyer);
             await repositoryManager.SaveAsync();
 
@@ -77,7 +77,7 @@ namespace MyShop.Services.BuyerService
             {
                 var buyerId = Guid.Parse(claims.FindFirstValue(ClaimTypes.NameIdentifier));
                 var buyer = await repositoryManager.Buyer.GetBuyerAsync(buyerId, trackChanges);
-                if(buyer is null)
+                if (buyer is null)
                     throw new EntityNotFoundException<Buyer>();
 
                 buyer.FirstName = buyerDTO.FirstName;
@@ -87,7 +87,7 @@ namespace MyShop.Services.BuyerService
                 repositoryManager.Buyer.UpdateBuyer(buyer);
                 await repositoryManager.SaveAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception($"{ex.Message}");
             }

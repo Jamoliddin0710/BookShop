@@ -8,7 +8,7 @@ namespace Entities.Models.Enums
 {
     public enum EGender
     {
-        Male, 
+        Male,
         Famale
     }
 }

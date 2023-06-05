@@ -23,8 +23,6 @@ namespace Entities.Models
         public ELanguage Language { get; set; }
         public List<Image>? Images { get; set; }
         public int PagesCount { get; set; }
-        public Guid sellerId { get; set; }
-        public Seller Seller { get; set; }
         public int publisherId { get; set; }
         [ForeignKey(nameof(publisherId))]
         public Publisher? Publisher { get; set; }

@@ -9,7 +9,6 @@ namespace Entities.Models.Enums
     public enum EUserRole
     {
         Admin,
-        Buyer,
-        Seller,
+        User,
     }
 }

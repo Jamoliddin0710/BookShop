@@ -11,7 +11,6 @@ namespace Contracts.RepositoryContract
     {
         IBuyerRepository Buyer { get; }
         IBookRepository Book { get; }
-        ISellerRepository Seller { get; }
         IPublisherRepository Publisher { get; }
         IGenreRepository Genre { get; }
         IAuthorRepository Author { get; }

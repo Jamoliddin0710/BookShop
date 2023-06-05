@@ -1,0 +1,87 @@
+﻿@page "/author"
+@using BookShopBlazor.Service
+@using BookShopFront.Models.ModelView
+
+@code {
+    List<AuthorDTO> authors = new List<AuthorDTO>();
+    List<BookDTO> books = new List<BookDTO>();
+
+    [Inject]
+    private AuthorService authorService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            authors = await authorService.GetAllAuthor();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private async Task GetAuthorData()
+    {
+        await OnInitializedAsync();
+    }
+
+    private async Task GetBookByAuthotId(int authorId)
+    {
+        try
+        {
+            books = await authorService.GetGookByAuthorId(authorId);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        OnInitializedAsync();
+    }
+}
+
+
+
+@if (books.Count > 0)
+{
+    @for (int i = 0; i < books.Count; i += 4)
+    {
+        <div  style="display :flex ; flex-wrap :wrap">
+
+            @for (int j = i; j < Math.Min(i + 4, books.Count); j++)
+            {
+                var book = books[j];
+                <div style="flex-basis: 25%; padding: 10px; text-align:center">
+
+                    <MudIcon Icon="@Icons.Material.Filled.Book" Style="font-size: 14rem;"></MudIcon>
+                    <MudText>@book.Title</MudText>
+                    <MudText>@book.AuthorFullName</MudText>
+                    <MudText>@book.Price</MudText>
+                </div>
+            }
+        </div>
+    }
+}
+else
+{
+    @if (authors.Count > 0)
+    {
+        @for (int i = 0; i < authors.Count; i += 4)
+        {
+            <div class="author-row" style="display :flex ; flex-wrap :wrap">
+                @for (int j = i; j < Math.Min(i + 4, authors.Count); j++)
+                {
+                    var author = authors[j];
+
+                    <div class="author-column" style="flex-basis: 25%; padding: 10px; text-align:center">
+                        <MudButton OnClick="()=> GetBookByAuthotId(author.Id)">
+                            <MudIcon onclick="()=> GetBookByAuthotId(author.Id)" Icon="@Icons.Material.Filled.AccountCircle" Style="font-size: 14rem;"></MudIcon>
+                        </MudButton>
+                        <MudText>@author.FullName</MudText>
+                        <MudText>@author.BIO</MudText>
+                    </div>
+                }
+            </div>
+        }
+    }
+}
