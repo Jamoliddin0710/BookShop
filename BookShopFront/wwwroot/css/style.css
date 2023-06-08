@@ -1,0 +1,72 @@
+﻿/* Umumiy stil */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Sarlavha */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+}
+
+    header h1 {
+        margin: 0;
+    }
+
+/* Navigatsiya Menyusi */
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+
+    nav ul li {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+        nav ul li a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+
+            nav ul li a:hover {
+                background-color: #333;
+                color: #fff;
+            }
+
+/* Asosiy Konteyner */
+main {
+    padding: 20px;
+}
+
+/* Kitoblar */
+.book {
+    margin-bottom: 20px;
+}
+
+    .book img {
+        width: 200px;
+        height: 250px;
+        object-fit: cover;
+    }
+
+    .book h3 {
+        margin: 10px 0;
+    }
+
+    .book p {
+        margin-bottom: 10px;
+    }
+
+.author-button,
+.publisher-button {
+    display: inline-block;
+    padding: 5px 10px;
+    border: none;

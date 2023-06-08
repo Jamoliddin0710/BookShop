@@ -30,7 +30,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 options.AddPolicy("CorsPolicy", builder =>
-builder.AllowCredentials().AllowAnyHeader().WithOrigins("https://localhost:5001", "http://localhost:5000", 
+builder.AllowCredentials().AllowAnyHeader().WithOrigins("https://localhost:5002", "http://localhost:5000", 
 "https://localhost:44398" , "https://localhost:44398")));
 
 builder.Services.AddEndpointsApiExplorer();

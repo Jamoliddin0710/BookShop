@@ -105,6 +105,5 @@ namespace MyShop.Services.AdminService
             repositoryManager.Book.UpdateBook(bookUpdate);
             await repositoryManager.SaveAsync();
         }
-
     }
 }

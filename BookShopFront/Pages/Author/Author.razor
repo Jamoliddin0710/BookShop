@@ -1,7 +1,7 @@
 ﻿@page "/author"
 @using BookShopBlazor.Service
 @using BookShopFront.Models.ModelView
-
+@inject NavigationManager Navigation
 @code {
     List<AuthorDTO> authors = new List<AuthorDTO>();
     List<BookDTO> books = new List<BookDTO>();
@@ -31,12 +31,13 @@
         try
         {
             books = await authorService.GetGookByAuthorId(authorId);
+            Navigation.NavigateTo("/");
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
         }
-        OnInitializedAsync();
+       // OnInitializedAsync();
     }
 }
 

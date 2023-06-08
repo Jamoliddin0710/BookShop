@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
-    public class Image
+    public class CartBook
     {
         public int Id { get; set; }
-        public string? FileName { get; set; }
-        public string? ContentType { get; set; }
-        public byte[] ImageData { get; set; }
-        public int? bookId { get; set; }
-        [ForeignKey(nameof(bookId))]
+        public int BookId { get; set; }
+        [ForeignKey(nameof(BookId))]
         public Book? Book { get; set; }
+        public int CartId { get; set; }
+        [ForeignKey(nameof(CartId))]
+        public Cart? Cart { get; set; }
+        public uint Count { get; set; }
     }
 }

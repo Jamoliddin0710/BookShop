@@ -14,6 +14,7 @@ namespace Contracts.RepositoryContract
         IPublisherRepository Publisher { get; }
         IGenreRepository Genre { get; }
         IAuthorRepository Author { get; }
+        IImageRepository Image { get; }
         Task SaveAsync();
     }
 }

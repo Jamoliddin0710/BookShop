@@ -50,10 +50,10 @@ namespace MyShop.Controllers.AdminController
         public async Task<IActionResult> GetAllAuthor()
         {
             var authors = await adminServiceManager.Author.GetAll(true);
-           return Ok(authors);
+            return Ok(authors);
         }
 
-        
+
 
         [HttpDelete]
         public async Task<IActionResult> DeleteAuhtor(int authorId)

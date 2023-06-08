@@ -26,7 +26,7 @@ namespace Repository
             .OrderBy(genre => genre.Name);
 
         public async Task<Genre> GetGenreById(int genreId, bool trackChanges)
-            => await FindByCondition(genre => genre.Id == genreId, trackChanges).SingleOrDefaultAsync();
+            => await FindByCondition(genre => genre.Id == genreId, trackChanges).Include(gn=>gn.Books).SingleOrDefaultAsync();
         public void UpdateGenre(Genre genre) => Update(genre);
     }
 }

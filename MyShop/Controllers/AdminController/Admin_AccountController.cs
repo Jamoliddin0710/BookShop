@@ -8,7 +8,7 @@ using MyShop.Services.BuyerService.Contracts;
 namespace MyShop.Controllers.AdminController
 {
     //[Authorize(Roles = "Admin")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] 
     [ApiController]
     public partial class Admin_AccountController : ControllerBase
     {

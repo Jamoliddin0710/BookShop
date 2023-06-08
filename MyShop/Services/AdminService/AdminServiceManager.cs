@@ -13,8 +13,9 @@ namespace MyShop.Services.AdminService
         private readonly Lazy<IAuthorService> authorService;
         private readonly Lazy<IGenreService> genreService;
         private readonly Lazy<IPublisherService> publisherService;
-        
+        private readonly Lazy<IBookImageService> bookImageService;
         private readonly Lazy<IBookService> bookService;
+
         public AdminServiceManager(IRepositoryManager repositoryManager)
         {
             this.authorService = new Lazy<IAuthorService>(() => new AuthorService(repositoryManager));
@@ -22,6 +23,7 @@ namespace MyShop.Services.AdminService
             this.publisherService = new Lazy<IPublisherService>(() => new PublisherService(repositoryManager));
             this.buyerService = new Lazy<IBuyerService>(() => new MyShop.Services.BuyerService.BuyerService(repositoryManager));
             this.bookService = new Lazy<IBookService>(() => new BookService(repositoryManager));
+            this.bookImageService = new Lazy<IBookImageService>(() => new ImageService(repositoryManager));
         }
         public IPublisherService Publisher => publisherService.Value;
 
@@ -32,5 +34,7 @@ namespace MyShop.Services.AdminService
         public IBuyerService Buyer => buyerService.Value;
 
         public IBookService Book => bookService.Value;
+
+        public IBookImageService BookImage => bookImageService.Value;
     }
 }
