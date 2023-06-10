@@ -1,0 +1,34 @@
+﻿@page "/image"
+@using BookShopBlazor.Service
+@using BookShopFront.Models.ModelView
+
+@code {
+    ImageDTO? image;
+
+
+    [Inject]
+    private AuthorService authorService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            image = await authorService.GetImage(5);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+}
+
+@if(image is not null)
+{
+    
+    <MudImage Src="@image.ImageUrl" Alt="image not"></MudImage>
+   
+}
+else{
+    <MudText>image is null</MudText>
+}

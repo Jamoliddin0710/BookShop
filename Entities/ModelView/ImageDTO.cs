@@ -12,7 +12,5 @@ namespace Entities.ModelView
     {
         public int Id { get; set; }
         public string? ImageUrl { get; set; }
-        public int bookId { get; set; }
-        public BookDTO Book { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Entities.Migrations
 {
     /// <inheritdoc />
-    public partial class firstdb : Migration
+    public partial class imagealtertable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -71,33 +71,6 @@ namespace Entities.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sellers",
-                columns: table => new
-                {
-                    sellerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    FirstName = table.Column<string>(type: "text", nullable: false),
-                    LastName = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false),
-                    Token = table.Column<string>(type: "text", nullable: true),
-                    BuyerGender = table.Column<int>(type: "integer", nullable: false),
-                    Role = table.Column<int>(type: "integer", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: true),
-                    publisherId = table.Column<int>(type: "integer", nullable: true),
-                    Steps = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sellers", x => x.sellerId);
-                    table.ForeignKey(
-                        name: "FK_Sellers_Publishers_publisherId",
-                        column: x => x.publisherId,
-                        principalTable: "Publishers",
-                        principalColumn: "publisherId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
                 {
@@ -112,7 +85,6 @@ namespace Entities.Migrations
                     Inscription = table.Column<int>(type: "integer", nullable: false),
                     Language = table.Column<int>(type: "integer", nullable: false),
                     PagesCount = table.Column<int>(type: "integer", nullable: false),
-                    sellerId = table.Column<Guid>(type: "uuid", nullable: false),
                     publisherId = table.Column<int>(type: "integer", nullable: false),
                     authorId = table.Column<int>(type: "integer", nullable: true),
                     Count = table.Column<int>(type: "integer", nullable: false),
@@ -137,12 +109,6 @@ namespace Entities.Migrations
                         principalTable: "Publishers",
                         principalColumn: "publisherId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Books_Sellers_sellerId",
-                        column: x => x.sellerId,
-                        principalTable: "Sellers",
-                        principalColumn: "sellerId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,7 +118,7 @@ namespace Entities.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ImageUrl = table.Column<string>(type: "text", nullable: true),
-                    bookId = table.Column<int>(type: "integer", nullable: true)
+                    bookId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -161,13 +127,14 @@ namespace Entities.Migrations
                         name: "FK_Images_Books_bookId",
                         column: x => x.bookId,
                         principalTable: "Books",
-                        principalColumn: "bookId");
+                        principalColumn: "bookId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Buyers",
                 columns: new[] { "buyerId", "BuyerGender", "BuyerSigninStatus", "FirstName", "LastName", "Password", "PhoneNumber", "Role" },
-                values: new object[] { new Guid("8ee5ee6a-bf0d-4987-aedc-2d7c1b938f05"), 0, 0, "Admin", "Admin", "Admin", "12345678", 0 });
+                values: new object[] { new Guid("205970eb-5e30-4332-9ae4-bbf1ab7df89a"), 0, 0, "Admin", "Admin", "Admin", "12345678", 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_authorId",
@@ -185,19 +152,9 @@ namespace Entities.Migrations
                 column: "publisherId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Books_sellerId",
-                table: "Books",
-                column: "sellerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Images_bookId",
                 table: "Images",
                 column: "bookId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sellers_publisherId",
-                table: "Sellers",
-                column: "publisherId");
         }
 
         /// <inheritdoc />
@@ -217,9 +174,6 @@ namespace Entities.Migrations
 
             migrationBuilder.DropTable(
                 name: "Genres");
-
-            migrationBuilder.DropTable(
-                name: "Sellers");
 
             migrationBuilder.DropTable(
                 name: "Publishers");

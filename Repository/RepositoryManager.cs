@@ -14,9 +14,10 @@ namespace Repository
         private Lazy<IBuyerRepository> buyerRepository;
         private Lazy<IPublisherRepository> publisherRepository;
         private Lazy<IBookRepository> bookRepository;
-
+        private Lazy<IImageRepository> imageRepository;
         private Lazy<IAuthorRepository> authorRepository;
         private Lazy<IGenreRepository> genreRepository;
+        private Lazy<IOrderRepository> ordererRepository;
         public RepositoryManager(RepositoryContext context)
         {
             this.context = context;
@@ -25,6 +26,8 @@ namespace Repository
             this.buyerRepository = new Lazy<IBuyerRepository>(() => new BuyerRepository(context));
             this.authorRepository = new Lazy<IAuthorRepository>(() => new AuthorRepository(context));
             this.genreRepository = new Lazy<IGenreRepository>(() => new GenreRepository(context));
+            this.imageRepository = new Lazy<IImageRepository>(() => new ImageRepository(context));
+            this.ordererRepository = new Lazy<IOrderRepository>(() => new OrderRepository(context));
         }
 
         public IBuyerRepository Buyer => buyerRepository.Value;
@@ -36,6 +39,10 @@ namespace Repository
         public IAuthorRepository Author => authorRepository.Value;
 
         public IGenreRepository Genre => genreRepository.Value;
+
+        public IImageRepository Image => imageRepository.Value;
+
+        public IOrderRepository Order => ordererRepository.Value;
 
         public async Task SaveAsync() => await context.SaveChangesAsync();
     }

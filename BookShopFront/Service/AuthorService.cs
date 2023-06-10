@@ -60,5 +60,23 @@ namespace BookShopBlazor.Service
             }
             return new List<BookDTO>();
         }
+
+        public async Task<ImageDTO> GetImage(int imageId)
+        {
+            var httpRequest = new HttpRequestMessage(
+                HttpMethod.Get,
+                $"https://localhost:7202/api/Files/5");
+
+            httpRequest.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
+
+            var response = await httpClient.SendAsync(httpRequest);
+            var imageJson = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ImageDTO>(imageJson);
+            }
+            return new ImageDTO();
+        }
     }
 }

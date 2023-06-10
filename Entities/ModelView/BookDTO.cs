@@ -24,7 +24,7 @@ namespace Entities.ModelView
         public EInscription Inscription { get; set; }
         public string? PublisherName { get; set; }
         public ELanguage Language { get; set; }
-        //  public ICollection<ImageDTO> Images { get; set; }
+        public ICollection<ImageDTO>? Images { get; set; }
         public int PagesCount { get; set; }
         public int Count { get; set; }
         public string? GenreName { get; set; }

@@ -27,5 +27,9 @@ namespace Entities
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderBook> OrderBooks { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartBook> CartBooks { get; set; }
     }
 }

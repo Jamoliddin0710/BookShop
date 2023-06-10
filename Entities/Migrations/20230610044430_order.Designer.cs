@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Entities.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20230528075517_firstdb")]
-    partial class firstdb
+    [Migration("20230610044430_order")]
+    partial class order
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,9 +93,6 @@ namespace Entities.Migrations
                     b.Property<int>("publisherId")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("sellerId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("authorId");
@@ -103,8 +100,6 @@ namespace Entities.Migrations
                     b.HasIndex("genreId");
 
                     b.HasIndex("publisherId");
-
-                    b.HasIndex("sellerId");
 
                     b.ToTable("Books");
                 });
@@ -137,9 +132,6 @@ namespace Entities.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.ToTable("Buyers");
@@ -147,15 +139,58 @@ namespace Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8ee5ee6a-bf0d-4987-aedc-2d7c1b938f05"),
+                            Id = new Guid("339ba1a7-af78-4779-84de-bc4fb953d888"),
                             BuyerGender = 0,
                             BuyerSigninStatus = 0,
                             FirstName = "Admin",
                             LastName = "Admin",
                             Password = "Admin",
-                            PhoneNumber = "12345678",
-                            Role = 0
+                            PhoneNumber = "12345678"
                         });
+                });
+
+            modelBuilder.Entity("Entities.Models.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid>("BuyerId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuyerId");
+
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("Entities.Models.CartBook", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("integer");
+
+                    b.Property<long>("Count")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("CartId");
+
+                    b.ToTable("CartBooks");
                 });
 
             modelBuilder.Entity("Entities.Models.Genre", b =>
@@ -187,7 +222,7 @@ namespace Entities.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("text");
 
-                    b.Property<int?>("bookId")
+                    b.Property<int>("bookId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -195,6 +230,54 @@ namespace Entities.Migrations
                     b.HasIndex("bookId");
 
                     b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("Entities.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("LastUpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Entities.Models.OrderBook", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderBooks");
                 });
 
             modelBuilder.Entity("Entities.Models.Publisher", b =>
@@ -215,56 +298,6 @@ namespace Entities.Migrations
                     b.ToTable("Publishers");
                 });
 
-            modelBuilder.Entity("Entities.Models.Seller", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("sellerId");
-
-                    b.Property<int>("BuyerGender")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Steps")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("publisherId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("publisherId");
-
-                    b.ToTable("Sellers");
-                });
-
             modelBuilder.Entity("Entities.Models.Book", b =>
                 {
                     b.HasOne("Entities.Models.Author", "Author")
@@ -281,37 +314,71 @@ namespace Entities.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.Seller", "Seller")
-                        .WithMany()
-                        .HasForeignKey("sellerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Author");
 
                     b.Navigation("Genre");
 
                     b.Navigation("Publisher");
+                });
 
-                    b.Navigation("Seller");
+            modelBuilder.Entity("Entities.Models.Cart", b =>
+                {
+                    b.HasOne("Entities.Models.Buyer", "Buyer")
+                        .WithMany()
+                        .HasForeignKey("BuyerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Buyer");
+                });
+
+            modelBuilder.Entity("Entities.Models.CartBook", b =>
+                {
+                    b.HasOne("Entities.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.Cart", "Cart")
+                        .WithMany("CartBooks")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Cart");
                 });
 
             modelBuilder.Entity("Entities.Models.Image", b =>
                 {
                     b.HasOne("Entities.Models.Book", "Book")
                         .WithMany("Images")
-                        .HasForeignKey("bookId");
+                        .HasForeignKey("bookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("Entities.Models.Seller", b =>
+            modelBuilder.Entity("Entities.Models.OrderBook", b =>
                 {
-                    b.HasOne("Entities.Models.Publisher", "Publisher")
+                    b.HasOne("Entities.Models.Book", "Book")
                         .WithMany()
-                        .HasForeignKey("publisherId");
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Publisher");
+                    b.HasOne("Entities.Models.Order", "Order")
+                        .WithMany("OrderBooks")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Entities.Models.Author", b =>
@@ -324,9 +391,19 @@ namespace Entities.Migrations
                     b.Navigation("Images");
                 });
 
+            modelBuilder.Entity("Entities.Models.Cart", b =>
+                {
+                    b.Navigation("CartBooks");
+                });
+
             modelBuilder.Entity("Entities.Models.Genre", b =>
                 {
                     b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("Entities.Models.Order", b =>
+                {
+                    b.Navigation("OrderBooks");
                 });
 
             modelBuilder.Entity("Entities.Models.Publisher", b =>

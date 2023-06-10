@@ -7,5 +7,6 @@ namespace MyShop.Services.BuyerService.Contracts
     {
         IBuyerService Buyer { get; }
         IBookService Book { get; }
+        IOrderService Order { get; }
     }
 }

@@ -21,7 +21,6 @@ builder.Services.AddDbContext<RepositoryContext>(options
     =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("localhost"));
-    //
 });
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IBuyerServiceManager, BuyerServiceManager>();
@@ -30,8 +29,14 @@ builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 options.AddPolicy("CorsPolicy", builder =>
-builder.AllowCredentials().AllowAnyHeader().WithOrigins("https://localhost:5001", "http://localhost:5000", 
-"https://localhost:44398" , "https://localhost:44398")));
+builder.AllowCredentials()
+    .AllowAnyHeader()
+    .WithOrigins(
+        "https://localhost:5000",
+        "https://localhost:5001",
+        "https://localhost:44398",
+        "https://localhost:44398"
+        , "https://localhost:44352")));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -102,7 +107,7 @@ app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();

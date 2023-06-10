@@ -10,5 +10,6 @@ namespace MyShop.Services.AdminService.Contracts
         public IGenreService Genre { get; }
         public IBuyerService Buyer { get; } 
         public IBookService Book { get; }
+        public IImageService Image { get; }
     }
 }

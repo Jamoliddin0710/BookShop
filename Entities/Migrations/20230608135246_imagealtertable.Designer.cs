@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Entities.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20230604203512_initfb")]
-    partial class initfb
+    [Migration("20230608135246_imagealtertable")]
+    partial class imagealtertable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -142,7 +142,7 @@ namespace Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("70d07670-9cae-464c-8b16-e95fd38eeedc"),
+                            Id = new Guid("205970eb-5e30-4332-9ae4-bbf1ab7df89a"),
                             BuyerGender = 0,
                             BuyerSigninStatus = 0,
                             FirstName = "Admin",
@@ -182,7 +182,7 @@ namespace Entities.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("text");
 
-                    b.Property<int?>("bookId")
+                    b.Property<int>("bookId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -237,7 +237,9 @@ namespace Entities.Migrations
                 {
                     b.HasOne("Entities.Models.Book", "Book")
                         .WithMany("Images")
-                        .HasForeignKey("bookId");
+                        .HasForeignKey("bookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Book");
                 });
