@@ -26,7 +26,7 @@ namespace Repository
              FindAll(tracking).Include(p => p.Books).OrderBy(p => p.Name);
 
         public async Task<Publisher> GetPublisherById(int publisherId, bool trackChanges) =>
-          await FindByCondition(publisher => publisher.Id == publisherId, trackChanges).SingleOrDefaultAsync();
+          await FindByCondition(publisher => publisher.Id == publisherId, trackChanges).Include(pb=>pb.Books).SingleOrDefaultAsync();
 
         public void UpdatePublisher(Publisher publisher) => Update(publisher);
     }

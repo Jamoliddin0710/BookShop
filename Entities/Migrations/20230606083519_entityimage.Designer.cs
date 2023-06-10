@@ -3,6 +3,7 @@ using System;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Entities.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20230606083519_entityimage")]
+    partial class entityimage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,6 +132,9 @@ namespace Entities.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("Buyers");
@@ -136,58 +142,15 @@ namespace Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("339ba1a7-af78-4779-84de-bc4fb953d888"),
+                            Id = new Guid("66fa6456-1faf-4b5c-b0a1-3a9296b116f4"),
                             BuyerGender = 0,
                             BuyerSigninStatus = 0,
                             FirstName = "Admin",
                             LastName = "Admin",
                             Password = "Admin",
-                            PhoneNumber = "12345678"
+                            PhoneNumber = "12345678",
+                            Role = 0
                         });
-                });
-
-            modelBuilder.Entity("Entities.Models.Cart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<Guid>("BuyerId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BuyerId");
-
-                    b.ToTable("Carts");
-                });
-
-            modelBuilder.Entity("Entities.Models.CartBook", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("CartId")
-                        .HasColumnType("integer");
-
-                    b.Property<long>("Count")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("CartId");
-
-                    b.ToTable("CartBooks");
                 });
 
             modelBuilder.Entity("Entities.Models.Genre", b =>
@@ -222,7 +185,11 @@ namespace Entities.Migrations
                     b.Property<string>("FileName")
                         .HasColumnType("text");
 
-                    b.Property<int>("bookId")
+                    b.Property<byte[]>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<int?>("bookId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -230,54 +197,6 @@ namespace Entities.Migrations
                     b.HasIndex("bookId");
 
                     b.ToTable("Images");
-                });
-
-            modelBuilder.Entity("Entities.Models.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("LastUpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("OrderStatus")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("Entities.Models.OrderBook", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Count")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderBooks");
                 });
 
             modelBuilder.Entity("Entities.Models.Publisher", b =>
@@ -321,64 +240,13 @@ namespace Entities.Migrations
                     b.Navigation("Publisher");
                 });
 
-            modelBuilder.Entity("Entities.Models.Cart", b =>
-                {
-                    b.HasOne("Entities.Models.Buyer", "Buyer")
-                        .WithMany()
-                        .HasForeignKey("BuyerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Buyer");
-                });
-
-            modelBuilder.Entity("Entities.Models.CartBook", b =>
-                {
-                    b.HasOne("Entities.Models.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Models.Cart", "Cart")
-                        .WithMany("CartBooks")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("Cart");
-                });
-
             modelBuilder.Entity("Entities.Models.Image", b =>
                 {
                     b.HasOne("Entities.Models.Book", "Book")
                         .WithMany("Images")
-                        .HasForeignKey("bookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("bookId");
 
                     b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("Entities.Models.OrderBook", b =>
-                {
-                    b.HasOne("Entities.Models.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Models.Order", "Order")
-                        .WithMany("OrderBooks")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Entities.Models.Author", b =>
@@ -391,19 +259,9 @@ namespace Entities.Migrations
                     b.Navigation("Images");
                 });
 
-            modelBuilder.Entity("Entities.Models.Cart", b =>
-                {
-                    b.Navigation("CartBooks");
-                });
-
             modelBuilder.Entity("Entities.Models.Genre", b =>
                 {
                     b.Navigation("Books");
-                });
-
-            modelBuilder.Entity("Entities.Models.Order", b =>
-                {
-                    b.Navigation("OrderBooks");
                 });
 
             modelBuilder.Entity("Entities.Models.Publisher", b =>

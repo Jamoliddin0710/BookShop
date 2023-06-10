@@ -21,6 +21,7 @@ namespace Repository
         public RepositoryManager(RepositoryContext context)
         {
             this.context = context;
+            this.imageRepository = new Lazy<IImageRepository>(() => new ImageRepository(context));
             this.publisherRepository = new Lazy<IPublisherRepository>(() => new PublisherRepository(context));
             this.bookRepository = new Lazy<IBookRepository>(() => new BookRepository(context));
             this.buyerRepository = new Lazy<IBuyerRepository>(() => new BuyerRepository(context));

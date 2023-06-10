@@ -15,6 +15,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
+
 namespace MyShop.Services.AdminService
 {
     public class ImageService : IImageService
@@ -29,6 +30,9 @@ namespace MyShop.Services.AdminService
         public async Task<List<ImageDTO>> AddImage(int bookId, CreateImageDTO createImage, bool trackChanges)
         {
             var book = await repositoryManager.Book.GetBookById(bookId, trackChanges);
+            if (book is null)
+                throw new EntityNotFoundException<Book>();
+
             var imagelist = new List<ImageDTO>();
 
             if (createImage.BookImage is not null || createImage.BookImage.Count() > 0)

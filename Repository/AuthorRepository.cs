@@ -1,6 +1,7 @@
 ﻿using Contracts.RepositoryContract;
 using Entities;
 using Entities.Models;
+using Entities.ModelView;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Repository
 
         public async Task<Author> GetAuhthorById(int authorId, bool trackChanges)
             => await FindByCondition(author => author.Id == authorId, trackChanges).SingleOrDefaultAsync();
-
+       
         public void UpdateAuthor(Author author) => Update(author);
     }
 }
