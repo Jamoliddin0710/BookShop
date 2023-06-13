@@ -9,10 +9,13 @@ namespace Entities.Configurations
     {
         public void Configure(EntityTypeBuilder<Buyer> builder)
         {
+            builder.HasIndex(buyer => buyer.PhoneNumber).IsUnique();
+
             builder.HasData(
                 new List<Buyer>
                 {
-                    new Buyer { Id = Guid.NewGuid(),
+                    new Buyer {
+                        Id = Guid.NewGuid(),
                         FirstName="Admin" ,
                         PhoneNumber= "12345678",
                         Password="Admin",
@@ -20,8 +23,22 @@ namespace Entities.Configurations
                         Role = EUserRole.Admin,
                         BuyerSigninStatus = EBuyerSigninStatus.Inprogress,
                         BuyerGender = EGender.Male,
-                         } }
+                         },
+
+                    new Buyer {
+                        Id = Guid.NewGuid(),
+                        FirstName="testuser" ,
+                        PhoneNumber= "998937072078",
+                        Password="test_password",
+                        LastName = "test_lastname",
+                        Role = EUserRole.Buyer,
+                        BuyerSigninStatus = EBuyerSigninStatus.Inprogress,
+                        BuyerGender = EGender.Male,
+                     }
+                }
                 );
+
+
 
         }
     }

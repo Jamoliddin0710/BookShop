@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Entities.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20230610044430_order")]
-    partial class order
+    [Migration("20230610135201_currentdb")]
+    partial class currentdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -132,6 +132,9 @@ namespace Entities.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("Buyers");
@@ -139,13 +142,14 @@ namespace Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("339ba1a7-af78-4779-84de-bc4fb953d888"),
+                            Id = new Guid("76aed734-3226-47d1-ad86-c7d1b0336fbd"),
                             BuyerGender = 0,
                             BuyerSigninStatus = 0,
                             FirstName = "Admin",
                             LastName = "Admin",
                             Password = "Admin",
-                            PhoneNumber = "12345678"
+                            PhoneNumber = "12345678",
+                            Role = 0
                         });
                 });
 

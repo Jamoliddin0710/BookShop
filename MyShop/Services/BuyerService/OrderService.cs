@@ -28,7 +28,7 @@ namespace MyShop.Services.BuyerService
             }
             catch (Exception ex)
             {
-                throw new Exception($"User not registred Error message {ex.Message}");
+                throw new Exception($"User not registered. Error message: {ex.Message}");
             }
 
             var buyer = await repositoryManager.Buyer.GetBuyerAsync(buyerId, true);
@@ -41,36 +41,31 @@ namespace MyShop.Services.BuyerService
                 CreatedAt = DateTime.UtcNow,
                 OrderStatus = Entities.Models.Enums.EOrderStatus.Created
             };
+
             repositoryManager.Order.CreateOrder(order);
             await repositoryManager.SaveAsync();
 
-           // var orderbooks = new List<OrderBook>();
-           order.OrderBooks ??= new List<OrderBook>();
+           // var orderDb = await repositoryManager.Order.GetOrderById()
+            order.OrderBooks ??= new List<OrderBook>();
             foreach (var orderbook in createOrderDTO.OrderBooks)
             {
-              /*  orderbooks.Add(new OrderBook()
-                {
-                    OrderId = order.Id,
-                    BookId = orderbook.BookId,
-                    Count = orderbook.Count,
-                });
-              */
                 order.OrderBooks.Add(new OrderBook()
                 {
+                    Id = order.OrderBooks.Count + 1,
                     OrderId = order.Id,
                     BookId = orderbook.BookId,
                     Count = orderbook.Count,
                 });
             }
 
-          //  order.OrderBooks = orderbooks;
             order.LastUpdatedAt = DateTime.UtcNow;
             repositoryManager.Order.UpdateOrder(order);
             await repositoryManager.SaveAsync();
 
-            var orderview = order.Adapt<OrderDTO>();
-            return orderview;
+            var orderView = order.Adapt<OrderDTO>();
+            return orderView;
         }
+
 
         public async Task DeleteAllOrder()
         {

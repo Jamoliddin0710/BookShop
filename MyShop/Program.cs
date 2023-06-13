@@ -65,6 +65,7 @@ builder.Services.AddSwaggerGen(c =>
 }
 );
 
+
 //JWT
 IConfiguration appsettings = builder.Configuration.GetSection("Appsettings");
 builder.Services.Configure<AppSettings>(appsettings);

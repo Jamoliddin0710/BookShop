@@ -17,7 +17,7 @@ namespace Entities.Models
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public EGender BuyerGender { get; set; }
-        public EUserRole Role = EUserRole.User;
+        public EUserRole Role { get; set; } = EUserRole.Buyer;
         public EBuyerSigninStatus BuyerSigninStatus { get; set; }
     }
 }

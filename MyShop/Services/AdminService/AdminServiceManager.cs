@@ -36,6 +36,6 @@ namespace MyShop.Services.AdminService
 
         public IBookService Book => bookService.Value;
 
-        public IImageService Image => imageService.Value;
+        public IImageService BookImage => imageService.Value;
     }
 }

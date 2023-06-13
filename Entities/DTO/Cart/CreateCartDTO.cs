@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Models.Enums
+namespace Entities.DTO.Cart
 {
-    public enum EUserRole
+    internal class CreateCartDTO
     {
-        Admin,
-        Buyer,
     }
 }

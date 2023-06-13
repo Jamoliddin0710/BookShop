@@ -31,5 +31,13 @@ namespace MyShop.Controllers
         [HttpGet(Name = "GetAll-Images")]
         public async Task<IActionResult> GetAllImages()
           => Ok(await adminServiceManager.BookImage.GetAllImages(true));
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteImage(int imageId)
+        {
+            await adminServiceManager.BookImage.DeleteImage(imageId);
+            return NoContent();
+        }
+
     }
 }

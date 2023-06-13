@@ -33,7 +33,7 @@ namespace MyShop.Services.BuyerService
                 throw new EntityNotValidException<CreateBuyerDTO>();
 
             var buyer = createBuyer.Adapt<Buyer>();
-            buyer.Role = Entities.Models.Enums.EUserRole.User;
+            buyer.Role = Entities.Models.Enums.EUserRole.Buyer;
             repositoryManager.Buyer.AddBuyer(buyer);
             await repositoryManager.SaveAsync();
 
