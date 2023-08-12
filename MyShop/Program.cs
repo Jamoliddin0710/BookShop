@@ -20,8 +20,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<RepositoryContext>(options
     =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("localhost"));
+    //options.UseNpgsql(builder.Configuration.GetConnectionString("localhost"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("sqlconnection"));
 });
+
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IBuyerServiceManager, BuyerServiceManager>();
 builder.Services.AddScoped<IAdminServiceManager, AdminServiceManager>();
@@ -31,6 +33,7 @@ builder.Services.AddCors(options =>
 options.AddPolicy("CorsPolicy", builder =>
 builder.AllowCredentials()
     .AllowAnyHeader()
+    .AllowAnyMethod()
     .WithOrigins(
         "https://localhost:5000",
         "https://localhost:5001",

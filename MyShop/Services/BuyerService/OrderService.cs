@@ -41,11 +41,17 @@ namespace MyShop.Services.BuyerService
                 CreatedAt = DateTime.UtcNow,
                 OrderStatus = Entities.Models.Enums.EOrderStatus.Created
             };
+            try
+            {
+                repositoryManager.Order.CreateOrder(order);
+                await repositoryManager.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(" Add Order exception message: " + ex.Message);
+            }
 
-            repositoryManager.Order.CreateOrder(order);
-            await repositoryManager.SaveAsync();
-
-           // var orderDb = await repositoryManager.Order.GetOrderById()
+            // var orderDb = await repositoryManager.Order.GetOrderById()
             order.OrderBooks ??= new List<OrderBook>();
             foreach (var orderbook in createOrderDTO.OrderBooks)
             {
@@ -59,9 +65,16 @@ namespace MyShop.Services.BuyerService
             }
 
             order.LastUpdatedAt = DateTime.UtcNow;
-            repositoryManager.Order.UpdateOrder(order);
-            await repositoryManager.SaveAsync();
-
+            try
+            {
+                repositoryManager.Order.UpdateOrder(order);
+                await repositoryManager.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("Update order exception Message :" + ex.Message);
+            }
             var orderView = order.Adapt<OrderDTO>();
             return orderView;
         }

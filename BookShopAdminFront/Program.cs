@@ -1,5 +1,4 @@
-using BookShopBlazor.Service;
-using BookShopFront;
+using BookShopAdminFront;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
@@ -15,4 +14,4 @@ builder.Services.AddScoped(sp => new HttpClient());
 builder.Services.AddMudServices();
 
 await builder.Build().RunAsync();
-//book ga status berish masalan created, active, inactive,deleted
+//book ga stat

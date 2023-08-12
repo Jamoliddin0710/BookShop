@@ -1,4 +1,5 @@
 ﻿using Entities.DTO.Order;
+using Entities.Models;
 using Entities.ModelView;
 using MyShop.Filters;
 using System;
@@ -10,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace Contracts.ServiceContract.BuyerServiceContract
 {
-    public class ICartService
+    public interface ICartService
     {
-        public Task<> CreateCart(ClaimsPrincipal claims, CreateOrderDTO createOrderDTO);
-        public Task<IEnumerable<>> GetCarts(PaginationParams paginationParams, ClaimsPrincipal claims);
+        public Task<Cart> CreateCart(ClaimsPrincipal claims, CreateOrderDTO createOrderDTO);
+        public Task<IEnumerable<Cart>> GetCarts(PaginationParams paginationParams, ClaimsPrincipal claims);
         public Task DeleteCart(int orderId);
         public Task DeleteAllOrder();
     }

@@ -24,7 +24,7 @@ namespace MyShop.Controllers
             return Ok(images);
         }
 
-        [HttpGet("{imageId:int}",Name = "Get-image")]
+        [HttpGet("{imageId:int}", Name = "Get-image")]
         public async Task<IActionResult> GetImageById(int imageId)
           => Ok(await adminServiceManager.BookImage.GetImageById(imageId, true));
 

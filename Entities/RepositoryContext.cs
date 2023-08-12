@@ -13,7 +13,7 @@ namespace Entities
     {
         public RepositoryContext(DbContextOptions options) : base(options)
         {
-            // Database.EnsureCreated();
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

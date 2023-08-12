@@ -1,0 +1,178 @@
+﻿@page "/crud"
+@using System.ComponentModel.DataAnnotations
+@using BookShopBlazor.Service;
+@using BookShopFront.DTO;
+@using BookShopFront.Models.ModelView;
+@inject IDialogService DialogService
+@inject AuthorService authorservice;
+
+<EditForm style="margin-top : 40px" Model="@author" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="Full name" HelperText="Max. 8 characters"
+                                  @bind-Value="author.FullName" For="@(() => author.FullName)" />
+                    <MudTextField Label="BIO" Class="mt-3"
+                                  @bind-Value="author.BIO" For="@(() => author.BIO)" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="AddAuthor" Class="ml-auto">Add Author</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+    </MudGrid>
+</EditForm>
+
+
+
+
+
+
+
+@code {
+
+    private async Task OpenDialog(int authorId)
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseOnEscapeKey = true };
+
+        var result = await DialogService.Show<Dialog>("Edit Author", parameters, options).Result;
+
+        if (!result.Cancelled && result.Data is UpdateAuthorDTO userInput)
+        {
+            try
+            {
+                await authorservice.UpdateAuthor(authorId, userInput);
+                await OnInitializedAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+}
+
+@if (updateauthor.FullName is not null)
+{
+    <MudText>@updateauthor.FullName</MudText>
+}
+
+
+<ToolBarContent>
+    <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+</ToolBarContent>
+<MudTable Items="@authors" Filter="new Func<AuthorDTO, bool>(FilterFunc)">
+    <HeaderContent>
+        <MudTh>#</MudTh>
+        <MudTh>FullName</MudTh>
+        <MudTh>BIO</MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd>@context.Id</MudTd>
+        <MudTd>@context.FullName</MudTd>
+        <MudTd>@context.BIO</MudTd>
+        <MudTd>
+            <MudFab Color="Color.Primary" OnClick="()=>OpenDialog(context.Id)" StartIcon="@Icons.Material.Filled.Edit" />
+        </MudTd>
+        <MudTd>
+            <MudFab Color="Color.Error" OnClick="()=>DeleteAuthor(context.Id)" StartIcon="@Icons.Material.Filled.Delete" />
+        </MudTd>
+    </RowTemplate>
+
+</MudTable>
+
+
+@code {
+    private CreateAuthorDTO author = new CreateAuthorDTO();
+    private UpdateAuthorDTO updateauthor = new UpdateAuthorDTO();
+    private IEnumerable<AuthorDTO> authors = new List<AuthorDTO>();
+    private string searchString = "";
+    private BootstrapBlazor.Components.Modal modalref;
+    bool success;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            authors = await authorservice.GetAllAuthor();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+
+    private void OnValidSubmit(EditContext context)
+    {
+        success = true;
+        StateHasChanged();
+    }
+
+    private async Task AddAuthor()
+    {
+        if (author.FullName is null)
+            throw new Exception("fname is null");
+        try
+        {
+            await authorservice.AddAuthor(author);
+            await OnInitializedAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    /*private async Task EditAuthor(int authorId, UpdateAuthorDTO updateAuthorDTO)
+    {
+        if (updateAuthorDTO.FullName is null)
+            throw new Exception("fname is null");
+        try
+        {
+            await authorservice.UpdateAuthor(author);
+            await OnInitializedAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }*/
+    private async Task DeleteAuthor(int authorId)
+    {
+
+        Console.WriteLine("delete");
+        try
+        {
+            await authorservice.DeleteAuthor(authorId);
+            await OnInitializedAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+    }
+
+
+
+    private bool FilterFunc(AuthorDTO author)
+    {
+        Console.WriteLine("filkte");
+        string search = searchString.ToLower();
+        if (string.IsNullOrWhiteSpace(search))
+            return true;
+        if (author.FullName.ToLower().Contains(search, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+
+
+}
+

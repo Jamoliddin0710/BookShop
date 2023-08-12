@@ -1,6 +1,6 @@
 ﻿
+using BookShopAdminFront.Models.DTO;
 using BookShopAdminFront.Service;
-using BookShopFront.DTO;
 using BookShopFront.Models.ModelView;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 using Newtonsoft.Json;
