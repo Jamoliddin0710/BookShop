@@ -1,0 +1,163 @@
+﻿@page "/genre"
+@using System.ComponentModel.DataAnnotations
+@using BookShopAdminFront.Models.DTO;
+@using BookShopAdminFront.Models.DTO.Genre;
+@using BookShopAdminFront.Service;
+@using BookShopBlazor.Service;
+@using BookShopFront.Models.ModelView;
+@using BookShopAdminFront.Models.DTO.Author;
+
+@inject IDialogService DialogService
+@inject GenreService genreService;
+
+<EditForm style="margin-top : 40px" Model="@author" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="Full name" HelperText="Max. 8 characters"
+                                  @bind-Value="author.Name" For="@(() => author.Name)" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="AddAuthor" Class="ml-auto">Add Author</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+    </MudGrid>
+</EditForm>
+
+
+
+
+
+
+
+@code {
+
+    private async Task OpenDialog(int genreId)
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseOnEscapeKey = true };
+
+        var result = await DialogService.Show<Dialog>("Edit Author", parameters, options).Result;
+
+        if (!result.Cancelled && result.Data is UpdateGenreDTO userInput)
+        {
+            try
+            {
+                await genreService.Update(genreId, userInput);
+                await OnInitializedAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+}
+
+@if (updateauthor.Name is not null)
+{
+    <MudText>@updateauthor.Name</MudText>
+}
+
+
+<ToolBarContent>
+    <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+</ToolBarContent>
+<MudTable Items="@authors" Filter="new Func<GenreDTO, bool>(FilterFunc)">
+    <HeaderContent>
+        <MudTh>#</MudTh>
+        <MudTh>Name</MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd>@context.Id</MudTd>
+        <MudTd>@context.Name</MudTd>
+        <MudTd>
+            <MudFab Color="Color.Primary" OnClick="()=>OpenDialog(context.Id)" StartIcon="@Icons.Material.Filled.Edit" />
+        </MudTd>
+        <MudTd>
+            <MudFab Color="Color.Error" OnClick="()=>DeleteAuthor(context.Id)" StartIcon="@Icons.Material.Filled.Delete" />
+        </MudTd>
+    </RowTemplate>
+
+</MudTable>
+
+
+@code {
+    private CreateGenreDTO author = new CreateGenreDTO();
+    private UpdateGenreDTO updateauthor = new UpdateGenreDTO();
+    private IEnumerable<GenreDTO> authors = new List<GenreDTO>();
+    private string searchString = "";
+    bool success;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            authors = await genreService.GetAllAuthor();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+
+    private void OnValidSubmit(EditContext context)
+    {
+        success = true;
+        StateHasChanged();
+    }
+
+    private async Task AddAuthor()
+    {
+        if (author.Name is null)
+            throw new Exception("fname is null");
+        try
+        {
+            await genreService.Add(author);
+            await OnInitializedAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private async Task DeleteAuthor(int genreId)
+    {
+
+        Console.WriteLine("delete");
+        try
+        {
+            await genreService.Delete(genreId);
+            await OnInitializedAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+    }
+
+
+
+    private bool FilterFunc(GenreDTO author)
+    {
+        Console.WriteLine("filkte");
+        string search = searchString.ToLower();
+        if (string.IsNullOrWhiteSpace(search))
+            return true;
+        if (author.Name.ToLower().Contains(search, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+
+
+}
+

@@ -1,0 +1,24 @@
+﻿@using BookShopAdminFront.Models.DTO.Author;
+@using BookShopAdminFront.Models.DTO.Genre;
+
+<MudDialog Style="width:400px; height:300px">
+    <DialogContent>
+        <MudTextField T="string" @bind-Value="updateAuthorDTO.Name" Label="Name"></MudTextField>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    private UpdateGenreDTO updateAuthorDTO = new();
+    
+    void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(updateAuthorDTO));
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

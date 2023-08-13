@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookShopAdminFront.Models.DTO
+namespace BookShopAdminFront.Models.DTO.Author
 {
     public class UpdateAuthorDTO
     {

@@ -1,0 +1,156 @@
+﻿@page "/publisher"
+@using System.ComponentModel.DataAnnotations
+@using BookShopAdminFront.Models.DTO;
+@using BookShopAdminFront.Models.DTO.Genre;
+@using BookShopAdminFront.Service;
+@using BookShopBlazor.Service;
+@using BookShopFront.Models.ModelView;
+@using BookShopAdminFront.Models.DTO.Author;
+@using Entities.DTO.Publisher;
+
+@inject IDialogService DialogService
+@inject PublisherService publisherService;
+
+<EditForm style="margin-top : 40px" Model="@publisher" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="Full name" HelperText="Max. 8 characters"
+                                  @bind-Value="publisher.Name" For="@(() => publisher.Name)" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="AddAuthor" Class="ml-auto">Add Author</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+    </MudGrid>
+</EditForm>
+
+@code {
+
+    private async Task OpenDialog(int genreId)
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseOnEscapeKey = true };
+
+        var result = await DialogService.Show<Dialog>("Edit Author", parameters, options).Result;
+
+        if (!result.Cancelled && result.Data is UpdatePublisherDTO userInput)
+        {
+            try
+            {
+                await publisherService.Update(genreId, userInput);
+                await OnInitializedAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+}
+
+@if (updatePublisher.Name is not null)
+{
+    <MudText>@updatePublisher.Name</MudText>
+}
+
+
+<ToolBarContent>
+    <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+</ToolBarContent>
+<MudTable Items="@publishers" Filter="new Func<PublisherDTO, bool>(FilterFunc)">
+    <HeaderContent>
+        <MudTh>#</MudTh>
+        <MudTh>Name</MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd>@context.Id</MudTd>
+        <MudTd>@context.Name</MudTd>
+        <MudTd>
+            <MudFab Color="Color.Primary" OnClick="()=>OpenDialog(context.Id)" StartIcon="@Icons.Material.Filled.Edit" />
+        </MudTd>
+        <MudTd>
+            <MudFab Color="Color.Error" OnClick="()=>DeleteAuthor(context.Id)" StartIcon="@Icons.Material.Filled.Delete" />
+        </MudTd>
+    </RowTemplate>
+
+</MudTable>
+
+
+@code {
+    private CreatePublisherDTO publisher = new();
+    private UpdatePublisherDTO updatePublisher = new();
+    private IEnumerable<PublisherDTO> publishers = new List<PublisherDTO>();
+    private string searchString = "";
+    bool success;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            publishers = await publisherService.GetAllAuthor();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+
+    private void OnValidSubmit(EditContext context)
+    {
+        success = true;
+        StateHasChanged();
+    }
+
+    private async Task AddAuthor()
+    {
+        if (publisher.Name is null)
+            throw new Exception("fname is null");
+        try
+        {
+            await publisherService.Add(publisher);
+            await OnInitializedAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private async Task DeleteAuthor(int genreId)
+    {
+
+        Console.WriteLine("delete");
+        try
+        {
+            await publisherService.Delete(genreId);
+            await OnInitializedAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+    }
+
+    private bool FilterFunc(PublisherDTO publisher)
+    {
+        Console.WriteLine("filter");
+        string search = searchString.ToLower();
+        if (string.IsNullOrWhiteSpace(search))
+            return true;
+        if (publisher.Name.ToLower().Contains(search, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+
+
+}
+

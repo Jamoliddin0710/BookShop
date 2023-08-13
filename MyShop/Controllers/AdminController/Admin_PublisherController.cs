@@ -24,20 +24,20 @@ namespace MyShop.Controllers.AdminController
         }
 
         [HttpPost("create-publisher")]
-        public async Task<IActionResult> CreatePublisher(CreateGenreDTO createPublisher)
+        public async Task<IActionResult> CreatePublisher(CreatePublisherDTO createPublisher)
         {
             if (!ModelState.IsValid)
-                throw new EntityNotValidException<CreateGenreDTO>();
+                throw new EntityNotValidException<CreatePublisherDTO>();
             var publisher = await adminServiceManager.Publisher.AddPublisher(createPublisher);
             return Ok(publisher);
         }
 
         [HttpPut("update-publisher")]
-        public async Task<IActionResult> UpdatePublisher(int publisherId, UpdateGenreDTO GenreDTO)
+        public async Task<IActionResult> UpdatePublisher(int publisherId, UpdatePublisherDTO publisherDTO)
         {
             if (!ModelState.IsValid)
-                throw new EntityNotValidException<UpdateGenreDTO>();
-            await adminServiceManager.Publisher.UpdatePublisher(publisherId, GenreDTO);
+                throw new EntityNotValidException<UpdatePublisherDTO>();
+            await adminServiceManager.Publisher.UpdatePublisher(publisherId, publisherDTO);
             return NoContent();
         }
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BookShopAdminFront.Models.DTO
+namespace BookShopAdminFront.Models.DTO.Author
 {
     public class CreateAuthorDTO
     {

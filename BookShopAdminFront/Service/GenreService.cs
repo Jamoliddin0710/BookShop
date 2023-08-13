@@ -1,60 +1,61 @@
 ﻿using BookShopAdminFront.Models.DTO.Author;
-using BookShopAdminFront.Service;
 using BookShopFront.Models.ModelView;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 using Newtonsoft.Json;
 using System.Text;
+using BookShopAdminFront.Models.DTO;
+using BookShopAdminFront.Models.DTO.Genre;
 
-namespace BookShopBlazor.Service
+namespace BookShopAdminFront.Service
 {
-    public class AuthorService : HttpClientBase
+    public class GenreService : HttpClientBase
     {
-        public AuthorService(HttpClient httpClient) : base(httpClient) { }
+        public GenreService(HttpClient httpClient) : base(httpClient) { }
 
-        public async Task<AuthorDTO> AddAuthor(CreateAuthorDTO createAuthor)
+        public async Task<GenreDTO> Add(CreateGenreDTO createGenreDTO)
         {
-            var studentJson = JsonConvert.SerializeObject(createAuthor);
-            var httpContent = new StringContent(studentJson, Encoding.UTF8, "application/json");
+            var genreJson = JsonConvert.SerializeObject(createGenreDTO);
+            var httpContent = new StringContent(genreJson, Encoding.UTF8, "application/json");
 
-            var httpRequest = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7202/api/Admin_Author");
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7202/api/Admin_Genre");
             httpRequest.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
             httpRequest.Content = httpContent;
 
             var response = await httpClient.SendAsync(httpRequest);
-            var authorDtoJson = await response.Content.ReadAsStringAsync();
+            var GenreDTOJson = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<AuthorDTO>(authorDtoJson);
+                return JsonConvert.DeserializeObject<GenreDTO>(GenreDTOJson);
             }
 
-            return new AuthorDTO();
+            return new GenreDTO();
         }
 
-        public async Task<AuthorDTO> UpdateAuthor(int authorId, UpdateAuthorDTO updateAuthor)
+        public async Task<GenreDTO> Update(int genreId, UpdateGenreDTO updateGenreDTO)
         {
-            var authorJson = JsonConvert.SerializeObject(updateAuthor);
-            var httpContent = new StringContent(authorJson, Encoding.UTF8, "application/json");
+            var genreJson = JsonConvert.SerializeObject(updateGenreDTO);
+            var httpContent = new StringContent(genreJson, Encoding.UTF8, "application/json");
 
-            var httpRequest = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:7202/api/Admin_Author/{authorId}");
+            var httpRequest = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:7202/api/Admin_Genre/{genreId}");
             httpRequest.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
             httpRequest.Content = httpContent;
 
             var response = await httpClient.SendAsync(httpRequest);
-            var authorDtoJson = await response.Content.ReadAsStringAsync();
+            var GenreDTOJson = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<AuthorDTO>(authorDtoJson);
+                return JsonConvert.DeserializeObject<GenreDTO>(GenreDTOJson);
             }
 
-            return new AuthorDTO();
+            return new GenreDTO();
         }
 
 
-        public async Task DeleteAuthor(int authorId)
+        public async Task Delete(int genreId)
         {
-            var url = $"https://localhost:7202/api/Admin_Author?authorId={authorId}";
+            var url = $"https://localhost:7202/api/Admin_Genre/{genreId}";
             var httpRequest = new HttpRequestMessage(HttpMethod.Delete, url);
             httpRequest.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
 
@@ -62,61 +63,61 @@ namespace BookShopBlazor.Service
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception("Student deletion failed.");
+                throw new Exception("Genre deletion failed.");
             }
         }
 
-        public async Task<AuthorDTO> GetAuthorById(int authorId)
+        public async Task<GenreDTO> GetAuthorById(int genreId)
         {
             var httpRequest = new HttpRequestMessage(
                 HttpMethod.Get,
-                $"https://localhost:7202/api/Admin_Author/{authorId}");
+                $"https://localhost:7202/api/Admin_Author/{genreId}");
 
             httpRequest.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
 
             var response = await httpClient.SendAsync(httpRequest);
-            var productJson = await response.Content.ReadAsStringAsync();
+            var genreJson = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<AuthorDTO>(productJson);
+                return JsonConvert.DeserializeObject<GenreDTO>(genreJson);
             }
-            return new AuthorDTO();
+            return new GenreDTO();
         }
-        public async Task<List<AuthorDTO>> GetAllAuthor()
+        public async Task<List<GenreDTO>> GetAllAuthor()
         {
             var httpRequest = new HttpRequestMessage(
                 HttpMethod.Get,
-                $"https://localhost:7202/api/Admin_Author");
+                $"https://localhost:7202/api/Admin_Genre");
 
             httpRequest.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
 
             var response = await httpClient.SendAsync(httpRequest);
-            var productJson = await response.Content.ReadAsStringAsync();
+            var genreJson = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<List<AuthorDTO>> (productJson);
+                return JsonConvert.DeserializeObject<List<GenreDTO>>(genreJson);
             }
-            return new List<AuthorDTO>();
+            return new List<GenreDTO>();
         }
 
-        public async Task<List<BookDTO>> GetGookByAuthorId(int authorId)
+        public async Task<List<GenreDTO>> GetGookByAuthorId(int genreId)
         {
             var httpRequest = new HttpRequestMessage(
                 HttpMethod.Get,
-                $"https://localhost:7202/api/Admin_Book?genreId={authorId}");
+                $"https://localhost:7202/api/Admin_Genre/{genreId}");
 
             httpRequest.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
 
             var response = await httpClient.SendAsync(httpRequest);
-            var productJson = await response.Content.ReadAsStringAsync();
+            var genreJson = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<List<BookDTO>>(productJson);
+                return JsonConvert.DeserializeObject<List<GenreDTO>>(genreJson);
             }
-            return new List<BookDTO>();
+            return new List<GenreDTO>();
         }
 
         public async Task<ImageDTO> GetImage(int imageId)

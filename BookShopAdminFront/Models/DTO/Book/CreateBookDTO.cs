@@ -1,0 +1,40 @@
+﻿
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using BookShopAdminFront.Models;
+
+namespace BookShopAdminFront.DTO.Book
+{
+    public class CreateBookDTO
+    {
+        [Required]
+        public string? Title { get; set; }
+        [Required]
+        public string? Summary { get; set; }
+        [Required]
+        public Decimal? Price { get; set; }
+        [Required]
+        public string? ISBN { get; set; }
+        [Required]
+        public ECover Cover { get; set; }
+        [Required]
+        public int genreId { get; set; }
+
+        [Required]
+        public EInscription Inscription { get; set; }
+        [Required]
+        public int publisherId { get; set; }
+        [Required]
+        public ELanguage Language { get; set; }
+        [Required]
+        public int PagesCount { get; set; }
+        [Required]
+        public int Count { get; set; }
+        
+    }
+}
