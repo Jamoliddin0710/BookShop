@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
@@ -23,7 +22,7 @@ namespace BookShopAdminFront.DTO.Book
         [Required]
         public ECover Cover { get; set; }
         [Required]
-        public int genreId { get; set; }
+        public int authorId { get; set; }
 
         [Required]
         public EInscription Inscription { get; set; }
@@ -35,6 +34,7 @@ namespace BookShopAdminFront.DTO.Book
         public int PagesCount { get; set; }
         [Required]
         public int Count { get; set; }
-        
+        [Required]
+        public int genreId { get; set; }
     }
 }

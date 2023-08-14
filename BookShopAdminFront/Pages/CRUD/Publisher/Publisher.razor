@@ -21,7 +21,7 @@
                                   @bind-Value="publisher.Name" For="@(() => publisher.Name)" />
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="AddAuthor" Class="ml-auto">Add Author</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="AddPublisher" Class="ml-auto">Add Author</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -75,7 +75,7 @@
             <MudFab Color="Color.Primary" OnClick="()=>OpenDialog(context.Id)" StartIcon="@Icons.Material.Filled.Edit" />
         </MudTd>
         <MudTd>
-            <MudFab Color="Color.Error" OnClick="()=>DeleteAuthor(context.Id)" StartIcon="@Icons.Material.Filled.Delete" />
+            <MudFab Color="Color.Error" OnClick="()=>DeletePublisher(context.Id)" StartIcon="@Icons.Material.Filled.Delete" />
         </MudTd>
     </RowTemplate>
 
@@ -109,7 +109,7 @@
         StateHasChanged();
     }
 
-    private async Task AddAuthor()
+    private async Task AddPublisher()
     {
         if (publisher.Name is null)
             throw new Exception("fname is null");
@@ -124,13 +124,13 @@
         }
     }
 
-    private async Task DeleteAuthor(int genreId)
+    private async Task DeletePublisher(int publisherId)
     {
 
         Console.WriteLine("delete");
         try
         {
-            await publisherService.Delete(genreId);
+            await publisherService.Delete(publisherId);
             await OnInitializedAsync();
         }
         catch (Exception ex)

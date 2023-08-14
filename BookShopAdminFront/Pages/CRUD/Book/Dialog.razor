@@ -1,10 +1,11 @@
 ﻿@using BookShopAdminFront.Models.DTO.Author;
+@using BookShopAdminFront.Models.DTO.Book;
 @using BookShopAdminFront.Models.DTO.Genre;
 @using Entities.DTO.Publisher;
 
 <MudDialog Style="width:400px; height:300px">
     <DialogContent>
-        <MudTextField T="string" @bind-Value="updatePublisher.Name" Label="Name"></MudTextField>
+        <MudTextField T="string" @bind-Value="updateBook.Title" Label="Title"></MudTextField>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -14,11 +15,11 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    private UpdatePublisherDTO updatePublisher = new();
+    private UpdateBookDTO updateBook = new();
     
     void Submit()
     {
-        MudDialog.Close(DialogResult.Ok(updatePublisher));
+        MudDialog.Close(DialogResult.Ok(updateBook));
     }
 
     void Cancel() => MudDialog.Cancel();

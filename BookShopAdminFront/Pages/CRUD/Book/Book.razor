@@ -1,0 +1,221 @@
+﻿@page "/book"
+@using System.ComponentModel.DataAnnotations
+@using BookShopAdminFront.DTO.Book;
+@using BookShopAdminFront.Models.DTO;
+@using BookShopAdminFront.Models.DTO.Book;
+@using BookShopAdminFront.Models.DTO.Buyer;
+@using BookShopAdminFront.Models.DTO.Genre;
+@using BookShopAdminFront.Models;
+@using BookShopAdminFront.Service;
+@using BookShopBlazor.Service;
+@using BookShopFront.Models.ModelView;
+@using BookShopAdminFront.Models.DTO.Author;
+@using Entities.DTO.Publisher;
+
+@inject IDialogService DialogService
+@inject BookService bookService;
+
+<EditForm style="margin-top : 40px" Model="@book" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="Title" HelperText="Max. 8 characters"
+                                  @bind-Value="book.Title" For="@(() => book.Title)" />
+
+                    <MudTextField Label="Summary" HelperText="Max. 8 characters"
+                                  @bind-Value="book.Summary" For="@(() => book.Summary)" />
+
+
+                    <MudTextField Label="Price" HelperText="Type is Decimal"
+                                  @bind-Value="book.Price" For="@(() => book.Price)" />
+
+                    <MudTextField Label="ISBN" HelperText="Max. 8 characters"
+                                  @bind-Value="book.ISBN" For="@(() => book.ISBN)" />
+
+                    <MudSelect T="ECover" Label="Cover" @bind-Value="@book.Cover">
+                        @foreach (ECover cover in Enum.GetValues(typeof(ECover)))
+                        {
+                            <MudSelectItem T="ECover" Value="@cover">@cover.ToString()</MudSelectItem>
+                        }
+                    </MudSelect>
+
+                    <MudSelect T="int" Label="US States" HelperText="Pick your favorite states with keys" MultiSelection="false" @bind-Value="@book.authorId">
+                        @foreach (var author in authors)
+                        {
+                            <MudSelectItem T="int" Value="@author.Id">@author.FullName</MudSelectItem>
+                        }
+                    </MudSelect>
+
+                    <MudSelect T="EInscription" Label="Inscription" @bind-Value="@book.Inscription">
+                        @foreach (EInscription inscription in Enum.GetValues(typeof(EInscription)))
+                        {
+                            <MudSelectItem T="EInscription" Value="@inscription">@inscription.ToString()</MudSelectItem>
+                        }
+                    </MudSelect>
+
+                    <MudSelect T="int" Label="US States" HelperText="Pick your favorite states with keys" MultiSelection="false" @bind-Value="@book.publisherId">
+                        @foreach (var publisher in publishers)
+                        {
+                            <MudSelectItem T="int" Value="@publisher.Id">@publisher.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+
+                    <MudSelect T="ELanguage" Label="Language" @bind-Value="@book.Language">
+                        @foreach (ELanguage language in Enum.GetValues(typeof(ELanguage)))
+                        {
+                            <MudSelectItem T="ELanguage" Value="@language">@language.ToString()</MudSelectItem>
+                        }
+                    </MudSelect>
+
+                    <MudTextField Label="PageCount" HelperText="Max. 8 characters"
+                                  @bind-Value="book.PagesCount" For="@(() => book.PagesCount)" />
+
+                    <MudTextField Label="Count" HelperText="Max. 8 characters"
+                                  @bind-Value="book.Count" For="@(() => book.Count)" />
+
+                    <MudSelect T="int" Label="US States" HelperText="Pick your favorite states with keys" MultiSelection="false" @bind-Value="@book.genreId">
+                        @foreach (var genre in genres)
+                        {
+                            <MudSelectItem T="int" Value="@genre.Id">@genre.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="AddBook" Class="ml-auto">Add Book</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+    </MudGrid>
+</EditForm>
+
+@code {
+
+    private async Task OpenDialog(int genreId)
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseOnEscapeKey = true };
+
+        var result = await DialogService.Show<Dialog>("Edit Author", parameters, options).Result;
+
+        if (!result.Cancelled && result.Data is UpdateBookDTO userInput)
+        {
+            try
+            {
+                await bookService.UpdateBook(genreId, userInput);
+                await OnInitializedAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+}
+
+
+
+<ToolBarContent>
+    <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+</ToolBarContent>
+<MudTable Items="@books" Filter="new Func<BookDTO, bool>(FilterFunc)">
+    <HeaderContent>
+        <MudTh>#</MudTh>
+        <MudTh>Name</MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd>@context.Id</MudTd>
+        <MudTd>@context.Title</MudTd>
+        <MudTd>
+            <MudFab Color="Color.Primary" OnClick="()=>OpenDialog(context.Id)" StartIcon="@Icons.Material.Filled.Edit" />
+        </MudTd>
+        <MudTd>
+            <MudFab Color="Color.Error" OnClick="()=>DeleteBook(context.Id)" StartIcon="@Icons.Material.Filled.Delete" />
+        </MudTd>
+    </RowTemplate>
+
+</MudTable>
+
+
+@code {
+    private CreateBookDTO book = new();
+    private UpdatePublisherDTO updateBook = new();
+    private IEnumerable<BookDTO> books = new List<BookDTO>();
+    private IEnumerable<PublisherDTO> publishers = new List<PublisherDTO>();
+    private IEnumerable<AuthorDTO> authors = new List<AuthorDTO>();
+    private IEnumerable<GenreDTO> genres = new List<GenreDTO>();
+    private string searchString = "";
+    bool success;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            books = await bookService.GetAllBook();
+            genres = await bookService.GetAllGenre();
+            authors = await bookService.GetAllAuthor();
+            publishers = await bookService.GetAllPublisher();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+
+    private void OnValidSubmit(EditContext context)
+    {
+        success = true;
+        StateHasChanged();
+    }
+
+    private async Task AddBook()
+    {
+        if (book.Title is null)
+            throw new Exception("fname is null");
+        try
+        {
+            await bookService.AddBook(book);
+            await OnInitializedAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private async Task DeleteBook(int bookId)
+    {
+
+        Console.WriteLine("delete");
+        try
+        {
+            await bookService.DeleteBook(bookId);
+            await OnInitializedAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+    }
+
+    private bool FilterFunc(BookDTO bookDTO)
+    {
+        Console.WriteLine("filter");
+        string search = searchString.ToLower();
+        if (string.IsNullOrWhiteSpace(search))
+            return true;
+        if (bookDTO.Title.ToLower().Contains(search, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+
+
+}
+

@@ -11,6 +11,8 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped<AuthorService>();
 builder.Services.AddScoped<GenreService>();
+builder.Services.AddScoped<PublisherService>();
+builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped(sp => new HttpClient());
 
 //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });

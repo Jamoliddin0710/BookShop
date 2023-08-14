@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookShopAdminFront.Models.DTO.Buyer
+namespace BookShopAdminFront.Models.DTO.Book
 {
     public class UpdateBookDTO
     {

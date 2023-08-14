@@ -19,7 +19,7 @@ namespace MyShop.Controllers.AdminController
         }
 
         [HttpPost(Name = "Add-Book")]
-        public async Task<IActionResult> AddBook([FromForm] CreateBookDTO bookDTO)
+        public async Task<IActionResult> AddBook(CreateBookDTO bookDTO)
         {
             if (!ModelState.IsValid)
                 throw new EntityNotValidException<CreateBookDTO>();

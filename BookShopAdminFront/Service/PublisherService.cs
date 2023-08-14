@@ -17,7 +17,7 @@ namespace BookShopAdminFront.Service
             var publisherJson = JsonConvert.SerializeObject(createPublisher);
             var httpContent = new StringContent(publisherJson, Encoding.UTF8, "application/json");
 
-            var httpRequest = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7202/api/Admin_Genre");
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7202/api/Admin_Publisher/create-publisher");
             httpRequest.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
             httpRequest.Content = httpContent;
 
@@ -37,7 +37,7 @@ namespace BookShopAdminFront.Service
             var publisherJson = JsonConvert.SerializeObject(updatePublisher);
             var httpContent = new StringContent(publisherJson, Encoding.UTF8, "application/json");
 
-            var httpRequest = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:7202/api/Admin_Publisher/{publisherId}");
+            var httpRequest = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:7202/api/Admin_Publisher/update-publisher?publisherId={publisherId}");
             httpRequest.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
             httpRequest.Content = httpContent;
 
@@ -55,7 +55,7 @@ namespace BookShopAdminFront.Service
 
         public async Task Delete(int publisherId)
         {
-            var url = $"https://localhost:7202/api/Admin_Publisher/{publisherId}";
+            var url = $"https://localhost:7202/api/Admin_Publisher?publisherId={publisherId}";
             var httpRequest = new HttpRequestMessage(HttpMethod.Delete, url);
             httpRequest.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
 
@@ -71,7 +71,7 @@ namespace BookShopAdminFront.Service
         {
             var httpRequest = new HttpRequestMessage(
                 HttpMethod.Get,
-                $"https://localhost:7202/api/Admin_Author/{publisherId}");
+                $"https://localhost:7202/api/Admin_Publisher/get-publisher?publisherId={publisherId}");
 
             httpRequest.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
 
@@ -88,7 +88,7 @@ namespace BookShopAdminFront.Service
         {
             var httpRequest = new HttpRequestMessage(
                 HttpMethod.Get,
-                $"https://localhost:7202/api/Admin_Genre");
+                $"https://localhost:7202/api/Admin_Publisher");
 
             httpRequest.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
 
