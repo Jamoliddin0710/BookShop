@@ -1,7 +1,38 @@
 ﻿@page "/"
+@using Blazored.LocalStorage;
+@using BookShopAdminFront.Service;
+@inject NavigationManager Navigation;
+@inject ILocalStorageService LocalStorage;
+@inject NavigationManager NavigationManager;
+@inject IdentityService IdentityService;
 
-<PageTitle>Index</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor!</MudText>
-<MudAlert Severity="Severity.Normal">You can find documentation and examples on our website here: <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink></MudAlert>
+<AuthorizeView>
+    <NotAuthorized>
+        <h1>Welcome to Blazing Shop!</h1>
+    </NotAuthorized>
+    <Authorized>
+        <h1>Welcome back, @token</h1>
+    </Authorized>
+</AuthorizeView>
+
+
+
+@code {
+    private string? token;
+
+    protected override async Task OnInitializedAsync()
+    {
+        token = await IdentityService.GetTokenAsync();
+        if (string.IsNullOrEmpty(token))
+        {
+            Navigation.NavigateTo("/login");
+        }
+    }
+
+    /*  private async Task Logout()
+              {
+              await LocalStorage.RemoveItemAsync("token");
+              NavigationManager.NavigateTo("/");
+    }*/
+}

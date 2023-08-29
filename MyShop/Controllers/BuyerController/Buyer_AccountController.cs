@@ -29,7 +29,7 @@ namespace MyShop.Controllers.BuyerController
 
         [HttpPost("sign-up")]
         [AllowAnonymous]
-        public async Task<IActionResult> SignUp([FromForm] CreateBuyerDTO createBuyer)
+        public async Task<IActionResult> SignUp([FromQuery] CreateBuyerDTO createBuyer)
         {
             if (!ModelState.IsValid)
                 throw new EntityNotValidException<CreateBuyerDTO>();
@@ -43,7 +43,7 @@ namespace MyShop.Controllers.BuyerController
 
         [HttpPost("sign-in")]
         [AllowAnonymous]
-        public async Task<IActionResult> SignIn([FromForm] UserCredentials userCredentials, CancellationToken token)
+        public async Task<IActionResult> SignIn([FromQuery] UserCredentials userCredentials, CancellationToken token)
         {
             if (!ModelState.IsValid)
                 return BadRequest($"{typeof(UserCredentials)} objects is null");

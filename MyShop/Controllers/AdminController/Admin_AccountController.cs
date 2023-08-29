@@ -8,7 +8,7 @@ using MyShop.Services.BuyerService.Contracts;
 namespace MyShop.Controllers.AdminController
 {
     //[Authorize(Roles = "Admin")]
-    [Route("api/[controller]")] 
+    [Route("api/[controller]")]
     [ApiController]
     public partial class Admin_AccountController : ControllerBase
     {
@@ -21,11 +21,11 @@ namespace MyShop.Controllers.AdminController
         }
 
         [HttpPost("sign-in")]
-        [AllowAnonymous]
-        public async Task<IActionResult> SignIn([FromForm] UserCredentials userCredentials, CancellationToken token)
+       // [AllowAnonymous]
+        public async Task<IActionResult> SignIn([FromQuery] UserCredentials userCredentials)
         {
-            //if (!ModelState.IsValid)
-              //  return BadRequest($"{typeof(UserCredentials)} objects is null");
+            if (!ModelState.IsValid)
+                return BadRequest($"{typeof(UserCredentials)} objects is null");
 
             var key = System.Text.Encoding.UTF8.GetBytes(options.Value.SecretKey);
 

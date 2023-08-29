@@ -9,6 +9,6 @@ namespace Contracts.ServiceContract.AdminServiceContract
         Task DeleteBook(int bookId);
         Task UpdateBook(int bookId, UpdateBookDTO bookDTO);
         Task<BookDTO> GetBookById(int bookId, bool trackChanges);
-        Task<IEnumerable<BookDTO>> GetAllBooks(BookFilterDTO bookFilter, bool trackChanges);
+        Task<IEnumerable<BookDTO>> GetAllBooks(BookFilterDTO bookFilter);
     }
 }

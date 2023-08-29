@@ -1,5 +1,22 @@
-﻿<MudNavMenu>
+﻿@using Blazored.LocalStorage;
+@using BookShopAdminFront.Service;
+@inject IdentityService IdentityService;
+
+<MudNavMenu>
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
     <MudNavLink Href="counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Counter</MudNavLink>
     <MudNavLink Href="fetchdata" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Fetch data</MudNavLink>
+    @if (IsAuthenticated)
+    {
+        <MudNavLink Href="book" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Book</MudNavLink>
+        <MudNavLink Href="author" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Author</MudNavLink>
+        <MudNavLink Href="publisher" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Publisher</MudNavLink>
+        <MudNavLink Href="genre" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Genre</MudNavLink>
+    }
 </MudNavMenu>
+
+
+@code {
+    private bool IsAuthenticated = default;
+    protected override async Task OnInitializedAsync() => IsAuthenticated = await IdentityService.IsAuthenticatedAsync();
+}

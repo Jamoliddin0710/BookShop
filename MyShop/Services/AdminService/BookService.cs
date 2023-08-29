@@ -35,9 +35,9 @@ namespace MyShop.Services.AdminService
             await repositoryManager.SaveAsync();
         }
 
-        public async Task<IEnumerable<BookDTO>> GetAllBooks(BookFilterDTO filter, bool trackChanges)
+        public async Task<IEnumerable<BookDTO>> GetAllBooks(BookFilterDTO filter)
         {
-            var books = repositoryManager.Book.GetAllBook(trackChanges);
+            var books = repositoryManager.Book.GetAllBook(true);
 
             if (books is null)
                 return new List<BookDTO>();

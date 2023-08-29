@@ -11,11 +11,11 @@ namespace MyShop.Controllers.AdminController
     public class Admin_BookController : ControllerBase
     {
 
-        private readonly IAdminServiceManager sellerServiceManager;
+        private readonly IAdminServiceManager adminServiceManager;
 
-        public Admin_BookController(IAdminServiceManager sellerServiceManager)
+        public Admin_BookController(IAdminServiceManager adminServiceManager)
         {
-            this.sellerServiceManager = sellerServiceManager;
+            this.adminServiceManager = adminServiceManager;
         }
 
         [HttpPost(Name = "Add-Book")]
@@ -24,14 +24,14 @@ namespace MyShop.Controllers.AdminController
             if (!ModelState.IsValid)
                 throw new EntityNotValidException<CreateBookDTO>();
 
-            var book = await sellerServiceManager.Book.AddBook(bookDTO);
+            var book = await adminServiceManager.Book.AddBook(bookDTO);
             return Ok(book);
         }
 
         [HttpGet("api/Admin_Book/{bookId:int}")]
         public async Task<IActionResult> GetBookById(int bookId)
         {
-            var book = await sellerServiceManager.Book.GetBookById(bookId, true);
+            var book = await adminServiceManager.Book.GetBookById(bookId, true);
             return Ok(book);
         }
 
@@ -41,7 +41,7 @@ namespace MyShop.Controllers.AdminController
             if (!ModelState.IsValid)
                 throw new EntityNotValidException<UpdateBookDTO>();
 
-            await sellerServiceManager.Book.UpdateBook(bookId, bookDTO);
+            await adminServiceManager.Book.UpdateBook(bookId, bookDTO);
             return NoContent();
         }
 
@@ -49,8 +49,15 @@ namespace MyShop.Controllers.AdminController
         [HttpGet]
         public async Task<IActionResult> GetAllBook([FromQuery] BookFilterDTO bookFilter)
         {
-            var books = await sellerServiceManager.Book.GetAllBooks(bookFilter, true);
+            var books = await adminServiceManager.Book.GetAllBooks(bookFilter);
             return Ok(books);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteBook(int bookId)
+        {
+            await adminServiceManager.Book.DeleteBook(bookId);
+            return NoContent();
         }
 
     }

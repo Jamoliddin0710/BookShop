@@ -115,36 +115,53 @@
         }
     }
 }
+@{
+    var booksPerRow = 5;
+    var rowCount = (int)Math.Ceiling((double)books.Count() / booksPerRow);
 
+    <style>
+        .card-row {
+            display: flex;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
 
+        .card-container {
+            width: 230px;
+            margin-top: 50px;
+        }
+    </style>
 
-<ToolBarContent>
-    <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-</ToolBarContent>
-<MudTable Items="@books" Filter="new Func<BookDTO, bool>(FilterFunc)">
-    <HeaderContent>
-        <MudTh>#</MudTh>
-        <MudTh>Name</MudTh>
-    </HeaderContent>
-
-    <RowTemplate>
-        <MudTd>@context.Id</MudTd>
-        <MudTd>@context.Title</MudTd>
-        <MudTd>
-            <MudFab Color="Color.Primary" OnClick="()=>OpenDialog(context.Id)" StartIcon="@Icons.Material.Filled.Edit" />
-        </MudTd>
-        <MudTd>
-            <MudFab Color="Color.Error" OnClick="()=>DeleteBook(context.Id)" StartIcon="@Icons.Material.Filled.Delete" />
-        </MudTd>
-    </RowTemplate>
-
-</MudTable>
+    @for (var row = 0; row < rowCount; row++)
+    {
+        <div class="card-row">
+            @for (var col = 0; col < booksPerRow && col + row * booksPerRow < books.Count(); col++)
+            {
+                var _book = books[col + row * booksPerRow];
+                <div class="card-container" style="margin-right: @(col < booksPerRow - 1 ? 40 : 0)px;">
+                    <MudCard>
+                        <MudCardMedia Image="https://backend.book.uz/user-api/img/img-b48e221406efaf0371edc51ff3b693ef.jpg" Height="250" />
+                        <MudCardContent>
+                            <MudText Typo="Typo.h3">@_book.Title</MudText>
+                            <MudText Typo="Typo.caption">@_book.AuthorFullName</MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Default" />
+                            <MudIconButton OnClick="()=>DeleteBook(_book.Id)" Icon="@Icons.Material.Filled.Delete" Color="Color.Secondary"></MudIconButton>
+                            <MudIconButton Icon="@Icons.Material.Filled.ShoppingCart" Color="Color.Default" />
+                        </MudCardActions>
+                    </MudCard>
+                </div>
+            }
+        </div>
+    }
+}
 
 
 @code {
     private CreateBookDTO book = new();
     private UpdatePublisherDTO updateBook = new();
-    private IEnumerable<BookDTO> books = new List<BookDTO>();
+    private List<BookDTO> books = new List<BookDTO>();
     private IEnumerable<PublisherDTO> publishers = new List<PublisherDTO>();
     private IEnumerable<AuthorDTO> authors = new List<AuthorDTO>();
     private IEnumerable<GenreDTO> genres = new List<GenreDTO>();

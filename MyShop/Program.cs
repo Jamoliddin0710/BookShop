@@ -35,8 +35,8 @@ builder.AllowCredentials()
     .AllowAnyHeader()
     .AllowAnyMethod()
     .WithOrigins(
+    "https://localhost:5001",
         "https://localhost:5000",
-        "https://localhost:5001",
         "https://localhost:44398",
         "https://localhost:44398"
         , "https://localhost:44352")));

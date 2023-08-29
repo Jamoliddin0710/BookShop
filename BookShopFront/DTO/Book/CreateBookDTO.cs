@@ -1,5 +1,4 @@
-﻿using Entities.Models.Enums;
-using Entities.Models;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,8 +6,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BookShopFront.Models;
 
-namespace Entities.DTO.Book
+namespace BookShopFront.DTO.Book
 {
     public class CreateBookDTO
     {

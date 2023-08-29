@@ -55,7 +55,7 @@ namespace BookShopAdminFront.Service
 
         public async Task DeleteBook(int bookId)
         {
-            var url = $"https://localhost:7202/api/Admin_Book{bookId}";
+            var url = $"https://localhost:7202/api/Admin_Book?bookId={bookId}";
             var httpRequest = new HttpRequestMessage(HttpMethod.Delete, url);
             httpRequest.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
 

@@ -1,0 +1,46 @@
+﻿@page "/login";
+@using Blazored.LocalStorage;
+@using BookShopAdminFront.Service;
+@using Entities.DTO.User;
+@using Microsoft.AspNetCore.Components.Authorization;
+@inject AuthService AuthService;
+@inject ILocalStorageService LocalStorage;
+@inject NavigationManager NavigationManager;
+@inject AuthenticationStateProvider authProvider;
+
+<EditForm Model="user" OnSubmit="HandleLogin">
+    <div class="form-group">
+        <label for="username">Username</label>
+        <InputText id="username" @bind-Value="user.PhoneNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <InputText id="password" @bind-Value="user.Password" type="password" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</EditForm>
+
+@code {
+    private UserCredentials user = new UserCredentials();
+
+    private async void HandleLogin()
+    {
+        if (!string.IsNullOrEmpty(user.PhoneNumber) && !string.IsNullOrEmpty(user.Password))
+        {
+            try
+            {
+                Console.WriteLine("Log me in!");
+                var authResult = await AuthService.AddAuthor(user);
+                //  await OnInitializedAsync();
+                Console.WriteLine("Log me in!");
+                await LocalStorage.SetItemAsync<string>("token", authResult.Token);
+                await authProvider.GetAuthenticationStateAsync();
+                 NavigationManager.NavigateTo("/");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+}
